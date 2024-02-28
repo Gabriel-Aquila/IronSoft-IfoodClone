@@ -28,7 +28,7 @@ app.get('/criarCliente', (req, res) => {
     res.sendFile(path.join(__dirname, 'models', '/form.html'));
 });
 
-app.post('/cliente', (req, res) => {
+app.post('/criarClientedb', (req, res) => {
     const { nome, email,telefone } = req.body;
 
     db.run('INSERT INTO cliente (nome, email,telefone) VALUES (?, ?, ?)', [nome, email, telefone], function(err) {
@@ -41,6 +41,27 @@ app.post('/cliente', (req, res) => {
             }
 
             res.json({ message: 'Cliente adicionado com sucesso', cliente: row });
+        });
+    });
+});
+
+app.get('/alterarCliente', (req, res) => {
+    res.sendFile(path.join(__dirname, 'models', '/formAlterar.html'));
+});
+
+app.post('/alterarClientedb', (req, res) => {
+    const { nome, email,telefone,id_cliente } = req.body;
+    db.run('UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id_cliente = ?', [nome, email, telefone, id_cliente], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        db.get('SELECT id_cliente, nome, email, telefone FROM cliente WHERE id_cliente = ?', [id_cliente], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'Cliente atualizado com sucesso', cliente: row });            
         });
     });
 });
