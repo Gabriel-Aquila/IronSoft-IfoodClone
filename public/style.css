@@ -219,7 +219,91 @@ input[type="text"] {
     padding: 30px;
 }
 
+.facebook {
+    width: 350px;
+    height: 40px;
+    background-color: #344783;
+    margin: auto;
+    padding: 10px;
+    border-radius: 5px;
+}
 
+.facebook:hover{
+    background-color: #49588a;
+}
+
+.facebook a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.facebook a img {
+    width: 30px;
+    margin-top: 5px;
+}
+
+.facebook a p{
+    justify-content: center;
+}
+
+.google {
+    width: 350px;
+    height: 40px;
+    background-color: #FFF;
+    margin: auto;
+    margin-top: 25px;
+    padding: 10px;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+}
+
+.google:hover{
+    background-color: #dfdfdf;
+}
+
+.google a {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.google a img {
+    width: 30px;
+    margin-top: 5px;
+}
+
+.google a p{
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.outro{
+    display: flex;
+    padding: 15px; 
+    justify-content: space-between;
+}
+
+.metodo{
+    border: 1px solid #dfdfdf;
+    padding: 20px 50px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #686868;
+}
+
+.metodo:hover{
+    background-color: red;
+    color: white;
+}
 
 
 
