@@ -66,6 +66,27 @@ app.post('/alterarClientedb', (req, res) => {
     });
 });
 
+app.get('/deletarCliente', (req, res) => {
+    res.sendFile(path.join(__dirname, 'models', '/formDeletar.html'));
+});
+
+app.post('/deletarClientedb', (req, res) => {
+    const {id_cliente } = req.body;
+    db.run('DELETE cliente WHERE id_cliente = ?', [id_cliente], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        db.get('SELECT id_cliente, nome, email, telefone FROM cliente WHERE id_cliente = ?', [id_cliente], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'Cliente deletado', cliente: row });            
+        });
+    });
+});
+
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
