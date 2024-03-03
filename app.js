@@ -15,13 +15,11 @@ db.serialize(() => {
     db.run('CREATE TABLE IF NOT EXISTS cliente (id_cliente INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
 });
 
+app.get('/entrar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
+});
 app.get('/', (req, res) => {
-    db.all('SELECT * FROM cliente', [], (err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(rows);
-    });
+    res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 
 app.get('/criarCliente', (req, res) => {
