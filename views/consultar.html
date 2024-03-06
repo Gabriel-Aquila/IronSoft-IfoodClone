@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Clientes</title>
+</head>
+<body>
+    <h1>Listagem de Clientes</h1>
+    <ul id="cliente-list"></ul>
+
+    <script>
+        fetch('/clientes')
+        .then(response => response.json())
+        .then(data => {
+            const clienteList = document.getElementById('cliente-list');
+            data.forEach(cliente => {
+                const li = document.createElement('li');
+                li.textContent = `Nome: ${cliente.nome}, Email: ${cliente.email}, Telefone: ${cliente.telefone}`;
+                clienteList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Erro ao obter clientes:', error));
+    </script>
+</body>
+</html>

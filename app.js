@@ -22,8 +22,19 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 
+app.get('/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/painel.html'));
+});
+app.get('/consultar', (req, res) => {
+    db.all('SELECT * FROM cliente WHERE nome IS NOT NULL', [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
 app.get('/criarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/form.html'));
+    res.sendFile(path.join(__dirname, 'views', '/criar.html'));
 });
 
 app.post('/criarClientedb', (req, res) => {
@@ -44,7 +55,7 @@ app.post('/criarClientedb', (req, res) => {
 });
 
 app.get('/alterarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/formAlterar.html'));
+    res.sendFile(path.join(__dirname, 'views', '/alterar.html'));
 });
 
 app.post('/alterarClientedb', (req, res) => {
@@ -65,7 +76,7 @@ app.post('/alterarClientedb', (req, res) => {
 });
 
 app.get('/deletarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/formDeletar.html'));
+    res.sendFile(path.join(__dirname, 'views', '/deletar.html'));
 });
 
 app.post('/deletarClientedb', (req, res) => {
