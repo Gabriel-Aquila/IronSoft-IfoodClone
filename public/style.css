@@ -212,6 +212,8 @@ input[type="text"] {
 .cadastro {
     width: 400px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     margin: auto;
     margin-top: 100px;
     border: 1px solid #33333328;
