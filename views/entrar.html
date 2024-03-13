@@ -9,39 +9,9 @@
 
         <script src="https://accounts.google.com/gsi/client" async defer></script>
         <script src="https://unpkg.com/jwt-decode@4.0.0/build/cjs/index.js" async defer></script>
-        <script>
-            
-        function handleCredentialResponse(response) {
-            const data = jwtDecode(response.credential)
-            fullName.textContent = data.name
-            email.textContent = data.email
-            console.log(data)
-        }
-
-        window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "1001675675965-o4j8qf2erudbvvbjfd7f88ld5tff8dt1.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-
-
-            google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", 
-              size: "large",
-              type:"standard",
-              shape:"rectangular",
-              text:"$ {button.text}",
-              locale:"pt-BR",
-              logo_alignment:"left",
-              width:"350"
-            }  // customization attributes
-            );
-            google.accounts.id.prompt(); // also display the One Tap dialog
-        }
-        </script>
     </head>
     <body>
+        <script type="text/javascript" src="scripts/googleAuth.js"></script>
         <header>
             <div class="logo">
                 <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
@@ -51,37 +21,12 @@
             <div class="cadastro">
                 <h1>Falta pouco para matar sua fome!</h1>
                 <p>Como deseja continuar?</p>
-                <!--<div class="social">
-                    <div class="facebook">
-                        <a href="#">
-                            <img src="../image/facebook.png" alt="Facebook">
-                            <p>Continuar com o Facebook</p>
-                        </a>
-                    </div>
-                     <div class="google">
-                        <a href="#">
-                            <img src="../image/pesquisa.png" alt="Google">
-                            <p>Fazer o Login com o Google</p>
-                        </a>
-                    </div> 
-                    
-                </div>-->
-                <div id="buttonDiv"></div>
-
-                <p id="buttonDiv"></p>
-                <p id="fullName"></p>
-                <p id="email"></p>
-
-
+                <div id="buttonDiv">
+                    <p id="buttonDiv"></p>
+                </div>
                 <div class="outro">
-                    <!-- <div class="metodo">
-                        <a href="#">Celular</a>
-                    </div>
-                    <div class="metodo">
-                        <a href="#">E-mail</a>
-                    </div> -->
-                    <a href="#" class="metodo">Celular</a>
-                    <a href="#" class="metodo">E-mail</a>
+                <a href="#" class="metodo">Celular</a>
+                <a href="/email" class="metodo">E-mail</a>
 
                 </div>
             </div>

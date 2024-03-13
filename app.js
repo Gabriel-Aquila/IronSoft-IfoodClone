@@ -9,42 +9,73 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 const db = new sqlite3.Database('models/database.db');
 
-db.serialize(() => {
-    db.run('CREATE TABLE IF NOT EXISTS cliente (id_cliente INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 
 app.get('/entrar', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
 });
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', '/index.html'));
-});
 
-app.get('/criarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/form.html'));
+app.get('/email', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/email.html'));
+});
+app.post('/emailMFA', (req, res) => {
+    const {email} = req.body;
+    res.sendFile(path.join(__dirname, 'views', '/emailMFA.html'));
+});
+app.post('/logar-email', (req, res) => {
+    const {email} = req.body;
+    fetch('/criarClientedb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: 'SemNome',
+          email: email,
+          telefone:'0000000000'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Resposta do servidor:', data);
+      })
+      .catch(error => {
+        console.error('Erro ao fazer requisição:', error);
+      });
+      console.log(data)
+    res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 
 app.post('/criarClientedb', (req, res) => {
     const { nome, email,telefone } = req.body;
-
-    db.run('INSERT INTO cliente (nome, email,telefone) VALUES (?, ?, ?)', [nome, email, telefone], function(err) {
+    db.get('SELECT id_cliente FROM cliente WHERE email = ?', [email], (err, row) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        db.get('SELECT id_cliente, nome, email, telefone FROM cliente WHERE id_cliente = ?', [this.lastID], (err, row) => {
+        if (row) {
+            return res.status(400).json({ error: 'Cliente já cadastrado com esse email' });
+        }
+    
+        db.run('INSERT INTO cliente (nome, email,telefone) VALUES (?, ?, ?)', [nome, email, telefone], function(err) {
             if (err) {
+                console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
             }
-
-            res.json({ message: 'Cliente adicionado com sucesso', cliente: row });
+            db.get('SELECT id_cliente, nome, email, telefone FROM cliente WHERE id_cliente = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o cliente")
+                }
+                console.log("Cliente adicionado com sucesso")
+                res.json({ message: 'Cliente adicionado com sucesso', cliente: row });
+            });
         });
     });
-});
-
-app.get('/alterarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/formAlterar.html'));
 });
 
 app.post('/alterarClientedb', (req, res) => {
@@ -60,27 +91,6 @@ app.post('/alterarClientedb', (req, res) => {
             }
 
             res.json({ message: 'Cliente atualizado com sucesso', cliente: row });            
-        });
-    });
-});
-
-app.get('/deletarCliente', (req, res) => {
-    res.sendFile(path.join(__dirname, 'models', '/formDeletar.html'));
-});
-
-app.post('/deletarClientedb', (req, res) => {
-    const {id_cliente } = req.body;
-    db.run('DELETE cliente WHERE id_cliente = ?', [id_cliente], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-
-        db.get('SELECT id_cliente, nome, email, telefone FROM cliente WHERE id_cliente = ?', [id_cliente], (err, row) => {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-
-            res.json({ message: 'Cliente deletado', cliente: row });            
         });
     });
 });
