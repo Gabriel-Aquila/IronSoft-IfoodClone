@@ -23,31 +23,27 @@ app.get('/entrar', (req, res) => {
 app.get('/email', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/email.html'));
 });
-app.post('/emailMFA', (req, res) => {
-    const {email} = req.body;
-    res.sendFile(path.join(__dirname, 'views', '/emailMFA.html'));
-});
 app.post('/logar-email', (req, res) => {
     const {email} = req.body;
-    fetch('/criarClientedb', {
+    fetch('http://localhost:5500/criarClientedb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          nome: 'SemNome',
+          nome: 'Anonymous',
           email: email,
           telefone:'0000000000'
         })
       })
       .then(response => response.json())
-      .then(data => {
-        console.log('Resposta do servidor:', data);
+      .then( email=> {
+        console.log('Resposta do servidor:');
       })
       .catch(error => {
         console.error('Erro ao fazer requisição:', error);
       });
-      console.log(data)
+      console.log("Função executada")
     res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 
