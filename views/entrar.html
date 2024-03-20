@@ -11,32 +11,32 @@
 
         <script>
             
-        function handleCredentialResponse(response) {
-            const data = jwt_decode(response.credential)
-            console.log(data)
-        }
+            function handleCredentialResponse(response) {
+                const data = jwt_decode(response.credential)
+                console.log(data)
+            }
 
-        window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "1001675675965-o4j8qf2erudbvvbjfd7f88ld5tff8dt1.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
+            window.onload = function () {
+                google.accounts.id.initialize({
+                    client_id: "1001675675965-o4j8qf2erudbvvbjfd7f88ld5tff8dt1.apps.googleusercontent.com",
+                    callback: handleCredentialResponse
+                });
 
 
-            google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", 
-              size: "large",
-              type:"standard",
-              shape:"rectangular",
-              text:"$ {button.text}",
-              locale:"pt-BR",
-              logo_alignment:"left",
-              width:"350"
-            }  // customization attributes
-            );
-            google.accounts.id.prompt(); // also display the One Tap dialog
-        }
+                google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", 
+                size: "large",
+                type:"standard",
+                shape:"rectangular",
+                text:"$ {button.text}",
+                locale:"pt-BR",
+                logo_alignment:"left",
+                width:"350"
+                }  // customization attributes
+                );
+                google.accounts.id.prompt(); // also display the One Tap dialog
+            }
         </script>
     </head>
     <body>
@@ -70,6 +70,49 @@
                 <p id="fullName"></p>
                 <p id="sub"></p>
                 <p id="given_name"></p>
+
+                <p id="profile"></p>
+
+            </script>
+            <!-- Set the element id for the JSON response -->
+        
+            <p id="profile"></p>
+    
+            <script>
+      
+            
+          
+            (function(d, s, id){
+                                  var js, fjs = d.getElementsByTagName(s)[0];
+                                  if (d.getElementById(id)) {return;}
+                                  js = d.createElement(s); js.id = id;
+                                  js.src = "https://connect.facebook.net/en_US/sdk.js";
+                                  fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk')
+            );
+    
+    
+            window.fbAsyncInit = function() {
+                // Initialize the SDK with your app and the Graph API version for your app 
+                FB.init({
+                          appId            : '{your-facebook-app-id}',
+                          xfbml            : true,
+                          version          : '{the-graph-api-version-for-your-app}'
+                        });
+                // If you are logged in, automatically get your name and email adress, your public profile information -->
+                FB.login(function(response) {
+                          if (response.authResponse) {
+                               console.log('Welcome!  Fetching your information.... ');
+                               FB.api('/me', {fields: 'name, email'}, function(response) {
+                                   document.getElementById("profile").innerHTML = "Good to see you, " + response.name + ". i see your email address is " + response.email
+                               });
+                          } else { 
+                               // If you are not logged in, the login dialog will open for you to login asking for permission to get your public profile and email 
+                               console.log('User cancelled login or did not fully authorize.'); }
+                });
+            };
+    
+          </script>
 
                 <div class="outro">
                     <!-- <div class="metodo">
