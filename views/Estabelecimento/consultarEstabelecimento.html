@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="..\style.css">
-        <link rel="stylesheet" href="https:\\cdnjs.cloudflare.com\ajax\libs\font-awesome\5.15.4\css\all.min.css">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>Painel</title>
         <style>
             .ifood-button {
@@ -28,23 +28,23 @@
 
         </style>
             <script>
-                fetch('/produtos')
+                fetch('/estabelecimentos')
                 .then(response => response.json())
                 .then(data => {
-                    const produtoList = document.getElementById('produto-list');
-                    data.forEach(produto => {
+                    const estabelecimentoList = document.getElementById('estabelecimento-list');
+                    data.forEach(estabelecimento => {
                         const li = document.createElement('li');
-                        li.textContent = `Nome: ${produto.nome}, preco: ${produto.preco}, descricao: ${produto.descricao}`;
-                        produtoList.appendChild(li);
+                        li.textContent = `Nome: ${estabelecimento.nome}, especialidade: ${estabelecimento.especialidade}, endereco: ${estabelecimento.endereco}`;
+                        estabelecimentoList.appendChild(li);
                     });
                 })
-                .catch(error => console.error('Erro ao obter produtos:', error));
+                .catch(error => console.error('Erro ao obter estabelecimentos:', error));
             </script>
     </head>
     <body>
         <header>
             <div class="logo">
-                <a href="..\views\index.html"><img src="..\image\logo.png" alt="Shopping Cart"></a>
+                <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
             </div>
         </header>
         <main>
