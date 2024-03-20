@@ -91,6 +91,17 @@ app.post('/alterarClientedb', (req, res) => {
     });
 });
 
+
+//CRUD ESTABELECIMENTO
+app.get('/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Estabelecimento/painel.html'));
+});
+app.get('/criarEstabelecimento', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Estabelecimento/criarEstabelecimento.html'));
+});
+app.post('/criarEstabelecimentodb', (req, res) => {
+    const { nome, especialidade,endereco } = req.body;
+    db.get('SELECT id_estabelecimento FROM estabelecimento WHERE nome = ?', [nome], (err, row) => {
 //CRUD produto
 app.get('/painel', (req, res) => {    
     res.sendFile(path.join(__dirname, 'views', '/produto/painel.html'));
@@ -105,6 +116,10 @@ app.post('/criarprodutodb', (req, res) => {
             return res.status(500).json({ error: err.message });
         }
         if (row) {
+            return res.status(400).json({ error: 'Estabelecimento já cadastrado com esse nome' });
+        }
+    
+        db.run('INSERT INTO estabelecimento (nome, especialidade,endereco) VALUES (?, ?, ?)', [nome, especialidade,endereco], function(err) {
             return res.status(400).json({ error: 'produto já cadastrado com esse nome' });
         }
     
@@ -113,6 +128,26 @@ app.post('/criarprodutodb', (req, res) => {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
             }
+            db.get('SELECT * from estabelecimento WHERE id_estabelecimento = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o estabelecimento")
+                }
+                console.log("Estabelecimento adicionado com sucesso")
+                res.json({ message: 'Estabelecimento adicionado com sucesso', cliente: row });
+            });
+        });
+    });
+});
+
+app.get('/alterarEstabelecimento', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Estabelecimento/alterarEstabelecimento.html'));
+});
+
+app.post('/alterarEstabelecimentodb', (req, res) => {
+    const { nome, especialidade,endereco,id_estabelecimento } = req.body;
+    db.run('UPDATE estabelecimento SET nome = ?, especialidade = ?, endereco = ? WHERE id_estabelecimento = ?', [nome, especialidade, endereco, id_estabelecimento], function(err) {
+=======
             db.get('SELECT * from produto WHERE id_produto = ?', [this.lastID], (err, row) => {
                 if (err) {
                     return res.status(500).json({ error: err.message });
@@ -145,6 +180,15 @@ app.post('/alterarprodutodb', (req, res) => {
             return res.status(500).json({ error: err.message });
         }
 
+        db.get('SELECT * FROM estabelecimento WHERE id_estabelecimento = ?', [id_estabelecimento], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'estabelecimento atualizado com sucesso', estabelecimento: row });            
+        });
+    });
+});
         db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -174,7 +218,6 @@ app.post('/deletarprodutodb', (req, res) => {
         });
     });
 });
-
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
