@@ -175,6 +175,89 @@ app.post('/deletarEstabelecimentodb', (req, res) => {
     });
 });
 
+//CRUD PRODUTO
+app.get('/produto/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto/painel.html'));
+});
+app.get('/criarProduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto//criarProduto.html'));
+});
+app.post('/criarProdutodb', (req, res) => {
+    const { nome, descricao,preco } = req.body;
+    db.get('SELECT nome FROM produto WHERE nome = ?', [nome], (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (row) {
+            return res.status(400).json({ error: 'Produto já cadastrado com esse nome' });
+        }
+    
+        db.run('INSERT INTO produto (nome, descricao,preco) VALUES (?, ?, ?)', [nome, descricao,preco], function(err) {
+            if (err) {
+                console.log("Erro bizarro, nem foi")
+                return res.status(500).json({ error: err.message });
+            }
+            db.get('SELECT * from produto WHERE id_produto = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o produto")
+                }
+                console.log("Produto adicionado com sucesso")
+                res.json({ message: 'Produto adicionado com sucesso', cliente: row });
+            });
+        });
+    });
+});
+
+app.get('/consultarProduto', (req, res) => {
+    db.all('SELECT * FROM produto', (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({ produtos: rows });
+    });
+});
+app.get('/alterarProduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto/alterarProduto.html'));
+});
+
+app.post('/alterarProdutodb', (req, res) => {
+    const { nome, descricao,preco,id_produto } = req.body;
+    db.run('UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE id_produto = ?', [nome, descricao, preco, id_produto], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'produto atualizado com sucesso', produto: row });            
+        });
+    });
+});
+
+app.get('/deletarProduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto/deletarProduto.html'));
+});
+app.post('/deletarProdutodb', (req, res) => {
+    const {id_produto } = req.body;
+    db.run('DELETE FROM produto WHERE id_produto = ?', [id_produto], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+                console.log("Erro na consulta");
+            }
+
+            res.json({ message: 'produto deletado', cliente: row });            
+        });
+    });
+});
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
