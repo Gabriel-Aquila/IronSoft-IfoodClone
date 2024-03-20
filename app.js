@@ -91,6 +91,7 @@ app.post('/alterarClientedb', (req, res) => {
     });
 });
 
+
 //CRUD ESTABELECIMENTO
 app.get('/painel', (req, res) => {    
     res.sendFile(path.join(__dirname, 'views', '/Estabelecimento/painel.html'));
@@ -101,6 +102,16 @@ app.get('/criarEstabelecimento', (req, res) => {
 app.post('/criarEstabelecimentodb', (req, res) => {
     const { nome, especialidade,endereco } = req.body;
     db.get('SELECT id_estabelecimento FROM estabelecimento WHERE nome = ?', [nome], (err, row) => {
+//CRUD produto
+app.get('/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/produto/painel.html'));
+});
+app.get('/criarproduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/produto/criarproduto.html'));
+});
+app.post('/criarprodutodb', (req, res) => {
+    const { nome, preco,descricao } = req.body;
+    db.get('SELECT id_produto FROM produto WHERE nome = ?', [nome], (err, row) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -109,6 +120,10 @@ app.post('/criarEstabelecimentodb', (req, res) => {
         }
     
         db.run('INSERT INTO estabelecimento (nome, especialidade,endereco) VALUES (?, ?, ?)', [nome, especialidade,endereco], function(err) {
+            return res.status(400).json({ error: 'produto já cadastrado com esse nome' });
+        }
+    
+        db.run('INSERT INTO produto (nome, preco,descricao) VALUES (?, ?, ?)', [nome, preco,descricao], function(err) {
             if (err) {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
@@ -132,6 +147,35 @@ app.get('/alterarEstabelecimento', (req, res) => {
 app.post('/alterarEstabelecimentodb', (req, res) => {
     const { nome, especialidade,endereco,id_estabelecimento } = req.body;
     db.run('UPDATE estabelecimento SET nome = ?, especialidade = ?, endereco = ? WHERE id_estabelecimento = ?', [nome, especialidade, endereco, id_estabelecimento], function(err) {
+=======
+            db.get('SELECT * from produto WHERE id_produto = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o produto")
+                }
+                console.log("produto adicionado com sucesso")
+                res.json({ message: 'produto adicionado com sucesso', cliente: row });
+            });
+        });
+    });
+});
+
+app.get('/consultarproduto', (req, res) => {
+    db.all('SELECT * FROM produto', (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({ produtos: rows });
+    });
+});
+app.get('/alterarproduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/produto/alterarproduto.html'));
+});
+
+app.post('/alterarprodutodb', (req, res) => {
+    const { nome, preco,descricao,id_produto } = req.body;
+    db.run('UPDATE produto SET nome = ?, preco = ?, descricao = ? WHERE id_produto = ?', [nome, preco, descricao, id_produto], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -142,6 +186,35 @@ app.post('/alterarEstabelecimentodb', (req, res) => {
             }
 
             res.json({ message: 'estabelecimento atualizado com sucesso', estabelecimento: row });            
+        });
+    });
+});
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'produto atualizado com sucesso', produto: row });            
+        });
+    });
+});
+
+app.get('/deletarproduto', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/produto/deletarproduto.html'));
+});
+app.post('/deletarprodutodb', (req, res) => {
+    const {id_produto } = req.body;
+    db.run('DELETE FROM produto WHERE id_produto = ?', [id_produto], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+                console.log("Erro na consulta");
+            }
+
+            res.json({ message: 'produto deletado', cliente: row });            
         });
     });
 });
