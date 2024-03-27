@@ -15,7 +15,9 @@ const db = new sqlite3.Database('models/database.db');
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
-
+app.get('/painel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
+});
 app.get('/entrar', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
 });
@@ -92,7 +94,7 @@ app.post('/alterarClientedb', (req, res) => {
 });
 
 //CRUD ESTABELECIMENTO
-app.get('/painel', (req, res) => {    
+app.get('/Estabelecimento/painel', (req, res) => {    
     res.sendFile(path.join(__dirname, 'views', '/Estabelecimento/painel.html'));
 });
 app.get('/criarEstabelecimento', (req, res) => {    
@@ -197,7 +199,7 @@ app.post('/criarProdutodb', (req, res) => {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
             }
-            db.get('SELECT * from produto WHERE id_produto = ?', [this.lastID], (err, row) => {
+            db.get('SELECT * from produto WHERE id_entregador = ?', [this.lastID], (err, row) => {
                 if (err) {
                     return res.status(500).json({ error: err.message });
                     console.log("Erro ao adicionar o produto")
@@ -223,13 +225,13 @@ app.get('/alterarProduto', (req, res) => {
 });
 
 app.post('/alterarProdutodb', (req, res) => {
-    const { nome, descricao,preco,id_produto } = req.body;
-    db.run('UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE id_produto = ?', [nome, descricao, preco, id_produto], function(err) {
+    const { nome, descricao,preco,id_entregador } = req.body;
+    db.run('UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE id_entregador = ?', [nome,email,telefone,id_entregador], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
 
-        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+        db.get('SELECT * FROM produto WHERE id_entregador = ?', [id_entregador], (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
@@ -243,18 +245,100 @@ app.get('/deletarProduto', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/Produto/deletarProduto.html'));
 });
 app.post('/deletarProdutodb', (req, res) => {
-    const {id_produto } = req.body;
-    db.run('DELETE FROM produto WHERE id_produto = ?', [id_produto], function(err) {
+    const {id_entregador } = req.body;
+    db.run('DELETE FROM produto WHERE id_entregador = ?', [id_entregador], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
+        db.get('SELECT * FROM produto WHERE id_entregador = ?', [id_entregador], (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
                 console.log("Erro na consulta");
             }
 
             res.json({ message: 'produto deletado', cliente: row });            
+        });
+    });
+});
+
+//CRUD ENTREGADOR
+app.get('/entregador/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Entregador/painel.html'));
+});
+app.get('/criarEntregador', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Entregador/criarEntregador.html'));
+});
+app.post('/criarEntregadordb', (req, res) => {
+    const { nome,email,telefone  } = req.body;
+    db.get('SELECT nome FROM entregador WHERE nome = ?', [nome], (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (row) {
+            return res.status(400).json({ error: 'Entregador já cadastrado com esse nome' });
+        }
+        db.run('INSERT INTO entregador (nome,email,telefone ) VALUES (?, ?, ?)', [nome,email,telefone ], function(err) {
+            if (err) {
+                console.log("Erro bizarro, nem foi")
+                return res.status(500).json({ error: err.message });
+            }
+            db.get('SELECT * from entregador WHERE id_entregador = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o entregador")
+                }
+                console.log("Entregador adicionado com sucesso")
+                res.json({ message: 'Entregador adicionado com sucesso', cliente: row });
+            });
+        });
+    });
+});
+
+app.get('/consultarEntregador', (req, res) => {
+    db.all('SELECT * FROM entregador', (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({ entregadors: rows });
+    });
+});
+app.get('/alterarEntregador', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Entregador/alterarEntregador.html'));
+});
+
+app.post('/alterarEntregadordb', (req, res) => {
+    const { nome,email,telefone,id_entregador } = req.body;
+    db.run('UPDATE entregador SET nome = ?, email = ?, telefone = ? WHERE id_entregador = ?', [nome,email,telefone,id_entregador], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM entregador WHERE id_entregador = ?', [id_entregador], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'entregador atualizado com sucesso', entregador: row });            
+        });
+    });
+});
+
+app.get('/deletarEntregador', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Entregador/deletarEntregador.html'));
+});
+app.post('/deletarEntregadordb', (req, res) => {
+    const {id_entregador } = req.body;
+    db.run('DELETE FROM entregador WHERE id_entregador = ?', [id_entregador], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM entregador WHERE id_entregador = ?', [id_entregador], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+                console.log("Erro na consulta");
+            }
+
+            res.json({ message: 'entregador deletado', cliente: row });            
         });
     });
 });

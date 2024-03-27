@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>Painel de CRUDS</title>
+        <style>
+            .ifood-button {
+            display: inline-block;
+            background-color: #ff3e3e;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 10px;
+            }
+
+            .ifood-button:hover {
+            background-color: #e62828;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+            </div>
+        </header>
+        <main>
+            <div class="cadastro">
+                <a href="/Produto/painel"><button  class="ifood-button" >Painel Produto</button></a> 
+                <a href="/Entregador/painel"><button class="ifood-button">Painel Entregador</button></a>        
+                <a href="/Estabelecimento/painel"> <button class="ifood-button">Painel Estabelecimento</button></a>  
+            </div>
+        </main>
+    </body>
+</html>
