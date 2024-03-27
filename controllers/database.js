@@ -10,29 +10,20 @@ db.serialize(() => {
 });
 
 db.serialize(() => {
+    db.run('CREATE TABLE IF NOT EXISTS pagamento (id_produto INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,descricao TEXT, preco TEXT)');
+});
+
+
+db.serialize(() => {
+    db.run('CREATE TABLE IF NOT EXISTS entregador (id_entregador INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
+});
+
+db.serialize(() => {
+    db.run('CREATE TABLE IF NOT EXISTS pedido (id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,id_cliente INTEGER,id_estabelecimento INTEGER,id_entregador INTEGER,  Status TEXT,Data_Hora_Pedido blob, Data_Hora_Entregador blob)');
+});
+
+
+db.serialize(() => {
     db.run('CREATE TABLE IF NOT EXISTS produto (id_produto INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,descricao TEXT, preco TEXT)');
 });
-
-/*
-db.serialize(() => {
-    db.run('CREATE TABLE IF NOT EXISTS cliente (id_cliente INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
-});
-
-db.serialize(() => {
-    db.run('CREATE TABLE IF NOT EXISTS cliente (id_cliente INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
-});
-
-db.serialize(() => {
-    db.run('CREATE TABLE IF NOT EXISTS cliente (id_cliente INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,email TEXT, telefone TEXT)');
-});
-*/
-
-db.serialize(() => {
-    db.run('SELECT id_cliente, nome, email, telefone FROM cliente');
-});
-
-db.serialize(() => {
-    db.run('SELECT* FROM estabelecimento');
-});
-
 db.close();
