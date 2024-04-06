@@ -8,7 +8,7 @@ const port = 5500;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
+let user_adress = "";
 
 const db = new sqlite3.Database('models/database.db');
 
@@ -199,7 +199,7 @@ app.post('/criarProdutodb', (req, res) => {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
             }
-            db.get('SELECT * from produto WHERE id_entregador = ?', [this.lastID], (err, row) => {
+            db.get('SELECT * from produto WHERE id_produto = ?', [this.lastID], (err, row) => {
                 if (err) {
                     return res.status(500).json({ error: err.message });
                     console.log("Erro ao adicionar o produto")
@@ -225,13 +225,13 @@ app.get('/alterarProduto', (req, res) => {
 });
 
 app.post('/alterarProdutodb', (req, res) => {
-    const { nome, descricao,preco,id_entregador } = req.body;
-    db.run('UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE id_entregador = ?', [nome,email,telefone,id_entregador], function(err) {
+    const { nome, descricao,preco,id_produto } = req.body;
+    db.run('UPDATE produto SET nome = ?, descricao = ?, preco = ? WHERE id_produto = ?', [nome, descricao, preco, id_produto], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
 
-        db.get('SELECT * FROM produto WHERE id_entregador = ?', [id_entregador], (err, row) => {
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
@@ -245,12 +245,12 @@ app.get('/deletarProduto', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/Produto/deletarProduto.html'));
 });
 app.post('/deletarProdutodb', (req, res) => {
-    const {id_entregador } = req.body;
-    db.run('DELETE FROM produto WHERE id_entregador = ?', [id_entregador], function(err) {
+    const {id_produto } = req.body;
+    db.run('DELETE FROM produto WHERE id_produto = ?', [id_produto], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        db.get('SELECT * FROM produto WHERE id_entregador = ?', [id_entregador], (err, row) => {
+        db.get('SELECT * FROM produto WHERE id_produto = ?', [id_produto], (err, row) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
                 console.log("Erro na consulta");
@@ -342,6 +342,91 @@ app.post('/deletarEntregadordb', (req, res) => {
         });
     });
 });
+
+//CRUD Endereço
+app.get('/Endereco/painel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'Endereço/painel.html'));
+});
+app.get('/cadastrarEndereco', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'Endereço/endereço.html'));
+});
+app.post('/cadastrarEnderecodb', (req, res) => {
+    const { nome  } = req.body;
+    db.get('SELECT nome FROM endereco WHERE nome = ?', [nome], (err, row) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (row) {
+            return res.status(400).json({ error: 'Endereço já cadastrado com esse nome' });
+        }
+        db.run('INSERT INTO endereco (nome ) VALUES (?)', [nome], function(err) {
+            if (err) {
+                console.log("Erro bizarro, nem foi")
+                return res.status(500).json({ error: err.message });
+            }
+            db.get('SELECT * from endereco WHERE id_endereco = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                    console.log("Erro ao adicionar o endereço")
+                }
+                user_adress= row;
+                console.log(user_adress.nome)
+                console.log("Endereço adicionado com sucesso")
+                res.json({ message: 'Endereço adicionado com sucesso', endereco: row });
+            });
+        });
+    });
+});
+
+app.get('/consultarEndereco', (req, res) => {
+    db.all('SELECT * FROM endereco', (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({ enderecos: rows });
+    });
+});
+app.get('/alterarEndereco', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Endereço/alterarEndereço.html'));
+});
+
+app.post('/alterarEnderecodb', (req, res) => {
+    const { nome,id_endereco } = req.body;
+    db.run('UPDATE endereco SET nome = ? WHERE id_endereco = ?', [nome,id_endereco], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM endereco WHERE id_endereco = ?', [id_endereco], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            res.json({ message: 'endereco atualizado com sucesso', endereco: row });            
+        });
+    });
+});
+
+app.get('/deletarEndereco', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Endereço/deletarEndereço.html'));
+});
+app.post('/deletarEnderecodb', (req, res) => {
+    const {id_endereco } = req.body;
+    db.run('DELETE FROM endereco WHERE id_endereco = ?', [id_endereco], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        db.get('SELECT * FROM endereco WHERE id_endereco = ?', [id_endereco], (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+                console.log("Erro na consulta");
+            }
+
+            res.json({ message: 'endereco deletado', cliente: row });            
+        });
+    });
+});
+
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });

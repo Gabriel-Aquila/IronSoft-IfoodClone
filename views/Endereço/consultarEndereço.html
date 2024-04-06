@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>Painel de CRUDS</title>
+        <title>Consultar Enderecos</title>
         <style>
             .ifood-button {
             display: inline-block;
@@ -27,6 +27,19 @@
             }
 
         </style>
+            <script>
+                fetch('/enderecoes')
+                .then(response => response.json())
+                .then(data => {
+                    const enderecoList = document.getElementById('endereco-list');
+                    data.forEach(endereco => {
+                        const li = document.createElement('li');
+                        li.textContent = `Nome: ${endereco.nome}, especialidade: ${endereco.especialidade}, endereco: ${endereco.endereco}`;
+                        enderecoList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Erro ao obter enderecoes:', error));
+            </script>
     </head>
     <body>
         <header>
@@ -35,11 +48,8 @@
             </div>
         </header>
         <main>
-            <div class="cadastro">
-                <a href="/Produto/painel"><button  class="ifood-button" >Painel Produto</button></a> 
-                <a href="/Entregador/painel"><button class="ifood-button">Painel Entregador</button></a>        
-                <a href="/Estabelecimento/painel"> <button class="ifood-button">Painel Estabelecimento</button></a>  
-                <a href="/Endereco/painel"> <button class="ifood-button">Painel Endereço</button></a>  
+            <div class="consultar">
+            
             </div>
         </main>
     </body>
