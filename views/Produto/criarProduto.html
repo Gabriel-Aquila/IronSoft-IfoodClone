@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Criar produto</title>
+    <script>
+        function voltar() {
+            document.getElementById('formCliente').reset();
+            window.history.back();
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -15,7 +21,7 @@
     </header>
     <main>
         <h1>Criar produto</h1>
-        <form id="formCliente" action="/criarprodutodb" method="post">
+        <form id="formCliente" class="formulario" action="/criarprodutodb" method="post">
             <label for="nome">Nome:</label><br>
             <input type="text" id="nome" name="nome" required><br>
 
@@ -25,8 +31,9 @@
             <label for="preco">Preço:</label><br>
             <input type="text" id="preco" name="preco" required><br>
 
-            <button type="submit">Adicionar produto</button>
+            <button type="submit" class="formButton">Adicionar</button>
         </form>
+        <button onclick="voltar()" class="formButton voltar">Voltar</button>
     </main>
 </body>
 </html>

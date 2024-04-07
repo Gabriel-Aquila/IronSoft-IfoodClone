@@ -31,6 +31,11 @@ html, body{
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
 }
 
 header {
@@ -44,6 +49,25 @@ header {
     z-index: 1000;
     border-bottom: 1px solid #d6d6d6;
 }
+
+h1, h2{
+    text-align: center;
+    color: #ff3e3e;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2{
+    margin-top: 100px;
+}
+
+*{
+    font-family: Helvetica, sans-serif;
+}
+
+/* INDEX */
+
+/* Header */
 
 .prt {
     display: flex;
@@ -236,14 +260,14 @@ input[type="text"] {
     display: flex;
     flex-wrap: wrap;
     justify-content: left; 
-    margin-top: 120px; 
+    margin-top: 20px; 
 }
 
 footer {
-    position: fixed; /* Alterado para posição fixa */
     bottom: 0;
-    width: 100%;
     padding: 20px 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
     background-color: #f8f8f8;
 }
 
@@ -270,6 +294,55 @@ footer {
 .terms a:hover {
     text-decoration: underline;
 }
+
+.sugestao {
+    display: flex;
+    flex-direction: row;
+    font-family: Helvetica, sans-serif;
+}
+
+.sug-cards {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    margin-right: 25px;
+    padding: 10px;
+    align-items: center;
+    width: 350px;
+    height: 100px;
+}
+
+.sug-cards:hover, .card:hover, .wide-card:hover {
+    cursor: pointer;
+}
+
+.sug-cards img {
+    margin-right: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.card-info {
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #999999;
+}
+
+.card-info h3{
+    color: #686868;
+    margin-bottom: -5px;
+}
+
+.card-info p i{
+    color: orange;
+}
+
+.card-info p span{
+    font-size: 1rem;
+}
+
+/* Entrar */
 
 .cadastro {
     width: 400px;
@@ -369,8 +442,28 @@ footer {
     color: white;
 }
 
-.ifood-button {
-    display: inline-block;
+#buttonDiv, #buttonFace{
+    display: flex;
+    justify-content: center;
+}
+
+#buttonFace{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.painel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+  }
+  
+  .panel-button {
+    display: flex;
+    align-items: center;
     background-color: #ff3e3e;
     color: white;
     font-size: 16px;
@@ -378,54 +471,133 @@ footer {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
+    text-align: left;
     transition: background-color 0.3s;
+    margin: 10px;
+    width: 275px;
   }
   
-  .ifood-button:hover {
+  .panel-button:hover {
     background-color: #e62828;
   }
-
-.sugestao {
-    display: flex;
-    flex-direction: row;
-    font-family: Helvetica, sans-serif;
-}
-
-.sug-cards {
-    display: flex;
-    flex-direction: row;
+  
+  .btn-edit {
     margin: 0;
-    margin-right: 25px;
-    padding: 10px;
-    align-items: center;
-    width: 350px;
-    height: 100px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    background: none;
+    width: 50px;
+    height: 30px;
+  }
+  
+  .btn-edit:hover {
+    cursor: pointer;
+  }
+  
+  .config-est {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+  }
+  
+  .config-est i {
+    margin-right: 15px;
+  }
+  
+  .config-est .panel-button {
+    margin-left: 15px;
+  }
+
+  .info-est{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
-.sug-cards img {
-    margin-right: 20px;
+.info-est img{
     width: 100px;
     height: 100px;
-    border-radius: 10px;
+    margin-right: 50px;
 }
 
-.card-info {
-    justify-content: center;
-    font-size: 0.9rem;
-    color: #999999;
+.pen{
+    margin-left: 30px;
+    padding-top: 25px;
+    font-size: 15px;
 }
 
-.card-info h3{
-    color: #686868;
-    margin-bottom: -5px;
-}
-
-.card-info p i{
+.nome-est i{
     color: orange;
 }
 
-.card-info p span{
-    font-size: 1rem;
+.nome-est h3{
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.formulario label{
+    color: #6e6e6eda;
+    margin-bottom: -15px;
+}
+
+.formulario input{
+    height: 35px;
+    margin-top: 0;
+    margin-bottom: 50px;
+    border: 1px solid rgba(138, 138, 138, 0.336);
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.formButton{
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+    margin: auto;
+    width: 100px;
+    height: 50px;
+    border: 1px solid red;
+    border-radius: 10px;
+    background-color: white;
+    color: red;
+    cursor: pointer;
+}
+
+.formButton:hover, .voltar:hover, .voltar a:hover{
+    background-color: red;
+    color: white;
+}
+
+.voltar{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.voltar, .voltar a{
+    color: red;
+    background-color: white;
+}
+
+
+
+
+
+
+
+
