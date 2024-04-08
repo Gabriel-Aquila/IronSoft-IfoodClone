@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Formulário de estabelecimento</title>
-</head>
-<body>
-    <h1>Alterar estabelecimento</h1>
-    <form id="formestabelecimento" action="/alterarestabelecimentodb" method="post">
-        <label for="id_estabelecimento">id:</label><br>
-        <input type="text" id="id_estabelecimento" name="id_estabelecimento" required><br>
-        <label for="nome">Nome:</label><br>
-        <input type="text" id="nome" name="nome" required><br>
-        <label for="especialidade">Especialidade:</label><br>
-        <input type="text" id="especialidade" name="especialidade" required><br>
-        <input type="text" id="endereco" name="endereco" required><br>
-        <button type="submit">Adicionar estabelecimento</button>
-    </form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>Formulário de estabelecimento</title>
+        <script>
+            function voltar() {
+                document.getElementById('formestabelecimento').reset();
+                window.history.back();
+            }
+        </script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
+            </div>
+        </header>
+        <main>
+            <h1>Alterar estabelecimento</h1>
+            <form id="formestabelecimento" class="formulario" action="/alterarestabelecimentodb" method="post">
+                <label for="id_estabelecimento">id:</label><br>
+                <input type="text" id="id_estabelecimento" name="id_estabelecimento" required><br>
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" required><br>
+                <label for="especialidade">Especialidade:</label><br>
+                <input type="text" id="especialidade" name="especialidade" required><br>
+                <input type="text" id="endereco" name="endereco" required><br>
+                <button type="submit" class="formButton">Alterar</button>
+            </form>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
+        </main>
+    </body>
 </html>

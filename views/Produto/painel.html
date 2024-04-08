@@ -6,27 +6,11 @@
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>Painel de produto</title>
-        <style>
-            .ifood-button {
-            display: inline-block;
-            background-color: #ff3e3e;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin: 10px;
+        <script>
+            function voltar() {
+                window.location.href = '/';
             }
-
-            .ifood-button:hover {
-            background-color: #e62828;
-            }
-
-        </style>
+        </script>
     </head>
     <body>
         <header>
@@ -35,12 +19,24 @@
             </div>
         </header>
         <main>
-            <div class="cadastro">
-                <a href="/criarproduto"><button  class="ifood-button" >Criar produto</button></a> 
-                <a href="/alterarproduto"><button class="ifood-button">Alterar produtos</button></a>        
-                <a href="/deletarproduto"> <button class="ifood-button">Deletar produto</button></a>  
-                <a href="/consultarproduto"><button class="ifood-button">Consultar produtos</button></a>
+            <div class="painel">
+                <div class="info-est">
+                    <img src="../image/mc.jpg" alt="">
+                    <div class="nome-est">
+                        <h3>McDonald's - Ana Rosa</h3><br>
+                        <i class="fas fa-star">4.8</i>
+                        <span>•</span> 
+                        Lanches 
+                    </div> 
+                </div>
+                <div class="config-est">
+                    <a href="/criarproduto"><button  class="panel-button" ><i class="fas fa-plus"></i>Novo produto</button></a> 
+                    <a href="/alterarproduto"><button class="panel-button"><i class="fas fa-exchange-alt"></i>Alterar produto</button></a>        
+                    <a href="/deletarproduto"> <button class="panel-button"><i class="fas fa-trash"></i>Deletar produto</button></a>  
+                    <a href="/consultarproduto"><button class="panel-button"><i class="fas fa-search"></i>Consultar produto</button></a>
+                </div>                
             </div>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
         </main>
     </body>
 </html>

@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Formulário do Estabelecimento</title>
-</head>
-<body>
-    <h1>Adicionar Estabelecimento</h1>
-    <form id="formCliente" action="/criarEstabelecimentodb" method="post">
-        <label for="nome">Nome:</label><br>
-        <input type="text" id="nome" name="nome" required><br>
-        <label for="especialidade">Especialidade:</label><br>
-        <input type="text" id="especialidade" name="especialidade" required><br>
-        <label for="endereco">Endereço:</label><br>
-        <input type="text" id="endereco" name="endereco" required><br>
-        <button type="submit">Adicionar Estabelecimento</button>
-    </form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../style.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            <title>Formulário de estabelecimento</title>
+            <script>
+                function voltar() {
+                    document.getElementById('formCliente').reset();
+                    window.history.back();
+                }
+            </script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
+            </div>
+        </header>
+        <main>
+            <h1>Adicionar Estabelecimento</h1>
+            <form id="formCliente" class="formulario" action="/criarEstabelecimentodb" method="post">
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" placeholder="Nome do seu estabelecimento..." required><br>
+                <label for="especialidade">Especialidade:</label><br>
+                <input type="text" id="especialidade" name="especialidade" placeholder="Especialidade do seu estabelecimento..." required><br>
+                <label for="endereco">Endereço:</label><br>
+                <input type="text" id="endereco" name="endereco" placeholder="Endereço do seu estabelecimento..." required><br>
+                <button type="submit" class="formButton">Adicionar</button>
+            </form>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
+        </main>
+    </body>
 </html>
