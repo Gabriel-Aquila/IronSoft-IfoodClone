@@ -11,13 +11,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 let user_adress = "";
 
 const db = new sqlite3.Database('models/database.db');
+app.get('/listarDados', (req, res) => {
+    db.all('SELECT * FROM produto', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).json({ error: 'Erro ao obter os dados do banco de dados.' });
+        } else {
+            res.json(rows);
+        }
+    });
+});
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => {   
     res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 app.get('/painel', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
 });
+
+app.get('/produto/:nomeEstabelecimento', (req, res) => {
+    fetch('/consultarEstabelecimento')
+    .then(response => response.json())
+    .then(data => {
+        const estabelecimentosDiv = document.getElementById('estabelecimentos');
+        data.estabelecimentos.forEach(estabelecimento => {    
+        nomeEstabelecimento = estabelecimento.nome;
+    });
+    })
+    .catch(error => console.error('Erro ao buscar os dados:', error));  
+    res.sendFile(path.join(__dirname, 'views', '/Produto/produto.html'));
+});
+
 app.get('/entrar', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
 });
@@ -25,6 +49,7 @@ app.get('/entrar', (req, res) => {
 app.get('/email', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/email.html'));
 });
+
 app.post('/logar-email', (req, res) => {
     const {email} = req.body;
     fetch('http://localhost:5500/criarClientedb', {
@@ -132,7 +157,6 @@ app.get('/consultarEstabelecimento', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        
         res.json({ estabelecimentos: rows });
     });
 });

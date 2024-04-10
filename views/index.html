@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>iFood</title>
+        <script src="scripts/index.js" async defer></script>
     </head>
     <body>
         <header>
@@ -44,7 +45,13 @@
                 <div class="cart-icon">
                     <i class="fas fa-shopping-bag"><span class="cart-value">R$0.00</span></i>
                 </div>
-            </div>           
+            </div>
+            <button>Cesta</button>
+            <div>
+            <dialog id="modal">
+                <ul id="modalConteudo"></ul>
+            </dialog>   
+            </div>        
         </header>
         <div class="container">
             <div class="main-cards">
@@ -112,6 +119,9 @@
                     <img src="../image/banner4.png" alt="Top Restaurantes com Desconto">
                 </div>
             </div>
+
+            <div id="estabelecimentos"></div>
+
             <h2>Os queridinhos</h2>
             <div class="sugestao">
                 <div class="sug-cards">

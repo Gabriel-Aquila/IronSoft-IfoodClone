@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>iFood</title>
+        <script src="/scripts/produto.js" assync defer></script>
+    </head>
+    <body>
+        <header>
+            <div class="prt">
+                <div class="logo">
+                    <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#">Restaurantes</a></li>
+                        <li><a href="#">Mercados</a></li>
+                        <li><a href="#">Bebidas</a></li>
+                        <li><a href="#">Farmácias</a></li>
+                        <li><a href="#">Pets</a></li>
+                        <li><a href="#">Shopping</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="prt">
+                <div class="search-bar">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" placeholder="Busque por um item ou loja">
+                </div>
+            </div>
+            <div class="prt">
+                <div class="login-btn">
+                    <a href="/entrar"><i class="fas fa-sign-in-alt"></i></a>
+                </div>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-value">R$0.00</span>
+                </div>
+            </div>
+            <button>Cesta</button>
+            <div>
+            <dialog id="modal">
+                <ul id="modalConteudo"></ul>
+            </dialog>   
+            </div>        
+        </header>
+            <div id="produtos"></div>
+        <footer>
+            
+            <hr>
+            <div class="footer-bottom">
+                <div class="logo">
+                    <img src="../image/logo.png" alt="iFood Logo">
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2022 iFood. Todos os direitos reservados.</p>
+                    <p>Endereço fictício, Cidade - Estado, CEP: 12345-678</p>
+                </div>
+                <div class="terms">
+                    <a href="#">Termos e Condições</a>
+                    <a href="#">Código de Conduta</a>
+                    <a href="#">Privacidade</a>
+                    <a href="#">Dicas de Segurança</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
