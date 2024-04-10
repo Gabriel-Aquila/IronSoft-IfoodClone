@@ -15,7 +15,8 @@ window.onload = function () {
             estabelecimentoDiv.style.width="300px";
 
             const link = document.createElement('a');
-            link.setAttribute('href', 'https://www.exemplo.com');
+            nomeEstabelecimento = estabelecimento.nome;
+            link.setAttribute('href', '/produto/'+nomeEstabelecimento);
 
             const imgDiv = document.createElement('div');
             const img = document.createElement('img');
@@ -62,3 +63,4 @@ function listarDados() {
             console.error('Erro ao obter os dados:', error);
         });
 }
+

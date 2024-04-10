@@ -28,6 +28,20 @@ app.get('/', (req, res) => {
 app.get('/painel', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
 });
+
+app.get('/produto/:nomeEstabelecimento', (req, res) => {
+    fetch('/consultarEstabelecimento')
+    .then(response => response.json())
+    .then(data => {
+        const estabelecimentosDiv = document.getElementById('estabelecimentos');
+        data.estabelecimentos.forEach(estabelecimento => {    
+        nomeEstabelecimento = estabelecimento.nome;
+    });
+    })
+    .catch(error => console.error('Erro ao buscar os dados:', error));  
+    res.sendFile(path.join(__dirname, 'views', '/Produto/produto.html'));
+});
+
 app.get('/entrar', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
 });
