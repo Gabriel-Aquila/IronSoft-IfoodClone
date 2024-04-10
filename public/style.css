@@ -459,9 +459,9 @@ footer {
     align-items: center;
     justify-content: center;
     padding: 30px;
-  }
+}
   
-  .panel-button {
+.panel-button {
     display: flex;
     align-items: center;
     background-color: #ff3e3e;
@@ -475,13 +475,13 @@ footer {
     transition: background-color 0.3s;
     margin: 10px;
     width: 275px;
-  }
-  
-  .panel-button:hover {
+}
+
+.panel-button:hover {
     background-color: #e62828;
-  }
-  
-  .btn-edit {
+}
+
+.btn-edit {
     margin: 0;
     padding: 0;
     display: flex;
@@ -491,27 +491,27 @@ footer {
     background: none;
     width: 50px;
     height: 30px;
-  }
-  
-  .btn-edit:hover {
+}
+
+.btn-edit:hover {
     cursor: pointer;
-  }
-  
-  .config-est {
+}
+
+.config-est {
     display: flex;
     flex-direction: column;
     margin-top: 70px;
-  }
-  
-  .config-est i {
-    margin-right: 15px;
-  }
-  
-  .config-est .panel-button {
-    margin-left: 15px;
-  }
+}
 
-  .info-est{
+.config-est i {
+    margin-right: 15px;
+}
+
+.config-est .panel-button {
+    margin-left: 15px;
+}
+
+.info-est{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -521,6 +521,13 @@ footer {
     width: 100px;
     height: 100px;
     margin-right: 50px;
+}
+
+.stts{
+    margin-top: 25px;
+    margin-right: 20px;
+    font-size: 30px;
+    color: red;
 }
 
 .pen{
