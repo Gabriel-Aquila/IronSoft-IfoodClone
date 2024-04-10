@@ -5,42 +5,39 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>Painel</title>
-        <style>
-            .ifood-button {
-            display: inline-block;
-            background-color: #ff3e3e;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin: 10px;
+        <title>Painel Estabelecimento</title>
+        <script>
+            function voltar() {
+                window.location.href = '/';
             }
-
-            .ifood-button:hover {
-            background-color: #e62828;
-            }
-
-        </style>
+        </script>
     </head>
     <body>
         <header>
             <div class="logo">
-                <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+                <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
             </div>
         </header>
-        <main>
-            <div class="cadastro">
-                <a href="/criarEstabelecimento"><button  class="ifood-button" >Criar Estabelecimento</button></a> 
-                <a href="/alterarEstabelecimento"><button class="ifood-button">Alterar Estabelecimentos</button></a>        
-                <a href="/deletarEstabelecimento"> <button class="ifood-button">Deletar Estabelecimento</button></a>  
-                <a href="/consultarEstabelecimento"><button class="ifood-button">Consultar Estabelecimentos</button></a>
+        <main class="panel-est">        
+            <div class="painel">
+                <div class="info-est">
+                    <img src="../image/mc.jpg" alt="">
+                    <div class="nome-est">
+                        <h3>McDonald's - Ana Rosa</h3><br>
+                        <i class="fas fa-star">4.8</i>
+                        <span>•</span> 
+                        Lanches 
+                    </div> 
+                    <button class="btn-edit"><a href="/alterarEstabelecimento"><i class="fas fa-pen pen"></a></i></a></button>   
+                </div>
+                <div class="config-est">
+                    <a href="/criarEstabelecimento"><button  class="panel-button" ><i class="fas fa-plus"></i>Novo Estabelecimento</button></a> 
+                    <a href="/alterarEstabelecimento"><button class="panel-button"><i class="fas fa-exchange-alt"></i>Alterar Estabelecimentos</button></a>        
+                    <a href="/deletarEstabelecimento"> <button class="panel-button"><i class="fas fa-trash"></i>Deletar Estabelecimento</button></a>  
+                    <a href="/consultarEstabelecimento"><button class="panel-button"><i class="fas fa-search"></i>Consultar Estabelecimentos</button></a>
+                </div>                
             </div>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
         </main>
     </body>
 </html>
