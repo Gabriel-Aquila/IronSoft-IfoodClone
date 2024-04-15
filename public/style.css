@@ -148,25 +148,49 @@ input[type="text"] {
     padding: 5px;
 }
 
-.end{
+.end {
     display: flex;
     flex-direction: row;
     margin-right: 5px;
-    
 }
 
-.end a{
+#oPopup {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
     margin-right: 15px;
     color: #6d6d6d;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
-.end img{
+.end img {
     height: 20px;
     margin-left: 15px;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.popup-content {
+    background-color: #fff;
+    width: 80%;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .login-btn, .cart-icon {
