@@ -5,28 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>Painel de Endereço</title>
-        <style>
-            .ifood-button {
-            display: inline-block;
-            background-color: #ff3e3e;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin: 10px;
+        <title>Painel de endereço</title>
+        <script>
+            function voltar() {
+                window.history.back();
             }
-
-            .ifood-button:hover {
-            background-color: #e62828;
-            }
-
-        </style>
+        </script>
     </head>
     <body>
         <header>
@@ -35,12 +19,19 @@
             </div>
         </header>
         <main>
-            <div class="cadastro">
-                <a href="/cadastrarEndereco"><button  class="ifood-button" >Criar Endereço</button></a> 
-                <a href="/alterarEndereco"><button class="ifood-button">Alterar Endereços</button></a>        
-                <a href="/deletarEndereco"> <button class="ifood-button">Deletar Endereço</button></a>  
-                <a href="/consultarEndereco"><button class="ifood-button">Consultar Endereços</button></a>
+            <div class="painel">
+                <div class="info-est">
+                    <i class="fas fa-map-marker-alt stts"></i>
+                    <h1>Endereço</h1>
+                </div>
+                <div class="config-est">
+                    <a href="/cadastrarEndereco"><button  class="panel-button" >Criar Endereço</button></a> 
+                    <a href="/alterarEndereco"><button class="panel-button">Alterar Endereço</button></a>        
+                    <a href="/deletarEndereco"> <button class="panel-button">Deletar Endereço</button></a>  
+                    <a href="/consultarEndereco"><button class="panel-button">Consultar Endereço</button></a>
+                </div>   
             </div>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
         </main>
     </body>
 </html>

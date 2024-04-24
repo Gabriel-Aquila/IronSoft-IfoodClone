@@ -5,41 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>Consultar Entregadors</title>
-        <style>
-            .ifood-button {
-            display: inline-block;
-            background-color: #ff3e3e;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin: 10px;
+        <title>Consultar Entregadores</title>
+        <script>
+            function voltar() {
+                window.history.back();
             }
 
-            .ifood-button:hover {
-            background-color: #e62828;
-            }
-
-        </style>
-            <script>
-                fetch('/entregadores')
-                .then(response => response.json())
-                .then(data => {
-                    const entregadorList = document.getElementById('entregador-list');
-                    data.forEach(entregador => {
-                        const li = document.createElement('li');
-                        li.textContent = `Nome: ${entregador.nome}, especialidade: ${entregador.especialidade}, endereco: ${entregador.endereco}`;
-                        entregadorList.appendChild(li);
-                    });
-                })
-                .catch(error => console.error('Erro ao obter entregadores:', error));
-            </script>
+            fetch('/entregadores')
+            .then(response => response.json())
+            .then(data => {
+                const entregadorList = document.getElementById('entregador-list');
+                data.forEach(entregador => {
+                    const li = document.createElement('li');
+                    li.textContent = `Nome: ${entregador.nome}, especialidade: ${entregador.especialidade}, endereco: ${entregador.endereco}`;
+                    entregadorList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Erro ao obter entregadores:', error));
+        </script>
     </head>
     <body>
         <header>
@@ -51,6 +34,7 @@
             <div class="consultar">
             
             </div>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
         </main>
     </body>
 </html>

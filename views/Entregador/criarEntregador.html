@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Criar entregador</title>
-</head>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>Criar Entregadores</title>
+        <script>
+            function voltar() {
+                window.history.back();
+            }
+        </script>
 <body>
-    <h1>Criar entregador</h1>
-    <form id="formCliente" action="/criarentregadordb" method="post">
-        <label for="nome">Nome:</label><br>
-        <input type="text" id="nome" name="nome" required><br>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
+        </div>
+    </header>
+    <main>
+        <h1>Criar entregador</h1>
+        <form id="formCliente" class="formulario" action="/criarentregadordb" method="post">
+            <label for="nome">Nome:</label><br>
+            <input type="text" id="nome" name="nome" required><br>
 
-        <label for="email">email:</label><br>
-        <input type="text" id="email" name="email" required><br>
+            <label for="email">email:</label><br>
+            <input type="text" id="email" name="email" required><br>
 
-        <label for="telefone">telefone:</label><br>
-        <input type="text" id="telefone" name="telefone" required><br>
+            <label for="telefone">telefone:</label><br>
+            <input type="text" id="telefone" name="telefone" required><br>
 
-        <button type="submit">Adicionar entregador</button>
-    </form>
+            <button type="submit" class="formButton">Adicionar</button>
+        </form>
+        <button onclick="voltar()" class="formButton voltar">Voltar</button>
+    </main>
 </body>
 </html>

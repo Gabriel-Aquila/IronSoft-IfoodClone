@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <title>iFood</title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
     </head>
     <body>
         <header>
@@ -33,10 +34,10 @@
             </div>
             <div class="prt">
                 <div class="end">
-                    <a href="/">
-                        <p><b>R. Cubatão, 789</b></p>
+                    <button id="oPopup">
+                        <p><b>Selecionar Endereço</b></p>
                         <img src="../image/seta.png">
-                    </a>
+                    </button>
                 </div>
                 <div class="login-btn">
                     <a href="/entrar"><i class="fas fa-sign-in-alt"></i></a>
@@ -52,6 +53,14 @@
             </dialog>   
             </div>        
         </header>
+        <div id="addressPopup" class="popup">
+            <div class="popup-content">
+                <input type="text" id="addressInput" placeholder="Digite o endereço">
+                <button id="locateAddress">Localizar</button>
+                <div id="mapFrame" style="width: 100%; height: 400px;"></div>
+                <p id="streetName"></p>
+            </div>
+        </div>
         <div class="container">
             <div class="main-cards">
                 <div class="card">
@@ -207,6 +216,7 @@
                 </div>
             </div> 
         </footer>
+        <script type="text/javascript" src="scripts/script.js"></script>
         <script src="scripts/index.js" async defer></script>
         <script src="scripts/cesta.js" async defer></script>
     </body>

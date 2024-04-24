@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Deletar Entregador</title>
-</head>
-<body>
-    <h1>Deletar Entregador</h1>
-    <form id="formCliente" action="/deletarentregadordb" method="post">
-        <label for="id_entregador">id:</label><br>
-        <input type="text" id="id_entregador" name="id_entregador" required><br>
-        <button type="submit">Deletar entregador</button>
-    </form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>Deletar entregador</title>
+        <script>
+            function voltar() {
+                window.history.back();
+            }
+        </script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
+            </div>
+        </header>
+        <main>
+            <h1>Deletar Entregador</h1>
+            <form id="formCliente" class="formulario" action="/deletarentregadordb" method="post">
+                <label for="id_entregador">id:</label><br>
+                <input type="text" id="id_entregador" name="id_entregador" required><br>
+                <button type="submit" class="formButton">Deletar</button>
+            </form>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
+        </main>
+    </body>
 </html>
