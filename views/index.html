@@ -45,7 +45,13 @@
                 <div class="cart-icon">
                     <i class="fas fa-shopping-bag"><span class="cart-value">R$0.00</span></i>
                 </div>
-            </div>           
+            </div>
+            <button>Cesta</button>
+            <div>
+            <dialog id="modal">
+                <ul id="modalConteudo"></ul>
+            </dialog>   
+            </div>        
         </header>
         <div id="addressPopup" class="popup">
             <div class="popup-content">
@@ -121,6 +127,9 @@
                     <img src="../image/banner4.png" alt="Top Restaurantes com Desconto">
                 </div>
             </div>
+
+            <div id="estabelecimentos"></div>
+
             <h2>Os queridinhos</h2>
             <div class="sugestao">
                 <div class="sug-cards">
@@ -208,5 +217,7 @@
             </div> 
         </footer>
         <script type="text/javascript" src="scripts/script.js"></script>
+        <script src="scripts/index.js" async defer></script>
+        <script src="scripts/cesta.js" async defer></script>
     </body>
 </html>
