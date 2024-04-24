@@ -42,25 +42,3 @@ window.onload = function () {
 
 }
 
-button.onclick = function () {
-    modal.showModal()
-    listarDados()
-    
-}
-
-function listarDados() {
-    fetch('/listarDados') 
-        .then(response => response.json())
-        .then(data => {
-            modalConteudo.innerHTML = '';
-            data.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `Nome: ${item.nome}, descricao: ${item.descricao}, preco: ${item.preco}`;
-                modalConteudo.appendChild(li);
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao obter os dados:', error);
-        });
-}
-
