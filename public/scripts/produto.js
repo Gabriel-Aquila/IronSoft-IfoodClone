@@ -1,11 +1,13 @@
 const button = document.querySelector("button")
 const modal = document.querySelector("dialog")
 const modalConteudo = document.getElementById('modalConteudo');
+let quantidade =0;
 let buttonDiv 
 
 window.onload = function () {
     console.log("inicio produto");
-    fetch('/consultarProduto')
+    const id_estabelecimento = localStorage.getItem('idEstabelecimento');
+    fetch(`/consultarProduto?id_estabelecimento=${id_estabelecimento}`)
     .then(response => response.json())
     .then(data => {
         const produtosDiv = document.getElementById('produtos');
@@ -16,7 +18,7 @@ window.onload = function () {
         produtoDiv.classList.add('produtoDiv');
         produtoDiv.style.width="300px";
         produtoDiv.style.display ="flex";
-        produtoDiv.style.alignItems ="center";
+        produtoDiv.style.alignItems ="right";
 
 
         const link = document.createElement('a');
@@ -34,15 +36,16 @@ window.onload = function () {
 
         buttonDiv = document.createElement('button');
         buttonDiv.classList.add('buttonDiv');
-        buttonDiv.textContent = 'Adicionar'; 
+        buttonDiv.textContent = '+'; 
         buttonDiv.addEventListener('click', function() {
-            item = {
-                nome: produto.nome,
-                preco: produto.preco
-            };
-            itens.push(item)
-            localStorage.setItem("Itens",JSON.stringify(itens))
-            console.log('Item adicionado:', item);
+            let itemExistente = itens.find(item => item.nome === produto.nome); // Verifica se o item já está na cesta
+            if (itemExistente) {
+                itemExistente.quantidade++; // Incrementa a quantidade do item existente
+            } else {
+                itens.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 }); // Adiciona um novo item à cesta
+            }
+            localStorage.setItem('Itens', JSON.stringify(itens));
+            console.log('Item adicionado:', produto);
         });
         
         link.appendChild(textoDiv);

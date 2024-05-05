@@ -1,0 +1,26 @@
+.divModal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinhamento dos itens à esquerda */
+    border: 1px solid #ccc; /* Borda */
+    padding: 10px; /* Espaçamento interno */
+    margin-bottom: 10px; /* Espaçamento inferior entre os elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+li {
+    margin-bottom: 5px; /* Espaçamento inferior entre os itens */
+}
+
+button {
+    background-color: #cc2e2e; /* Cor de fundo */
+    color: #fff; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 5px 10px; /* Espaçamento interno */
+    cursor: pointer; /* Cursor ao passar o mouse */
+    margin-top: 5px; /* Espaçamento superior */
+}
+
+button:hover {
+    background-color: #f69586; /* Cor de fundo ao passar o mouse */
+}

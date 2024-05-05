@@ -15,8 +15,9 @@ window.onload = function () {
             estabelecimentoDiv.style.width="300px";
 
             const link = document.createElement('a');
-            nomeEstabelecimento = estabelecimento.nome;
+            let nomeEstabelecimento = estabelecimento.nome;
             link.setAttribute('href', '/produto/'+nomeEstabelecimento);
+            link.setAttribute('data-id', estabelecimento.id_estabelecimento);
 
             const imgDiv = document.createElement('div');
             const img = document.createElement('img');
@@ -36,6 +37,11 @@ window.onload = function () {
             estabelecimentoDiv.appendChild(textoDiv);
             link.appendChild(estabelecimentoDiv);
             estabelecimentosDiv.appendChild(link);
+
+            link.addEventListener('click', function() {
+                const idEstabelecimento = this.getAttribute('data-id');
+                localStorage.setItem('idEstabelecimento', idEstabelecimento);
+            });
         });
     })
     .catch(error => console.error('Erro ao buscar os dados:', error));

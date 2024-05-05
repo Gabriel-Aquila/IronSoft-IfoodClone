@@ -30,16 +30,8 @@ app.get('/painel', (req, res) => {
 });
 
 app.get('/produto/:nomeEstabelecimento', (req, res) => {
-    fetch('/consultarEstabelecimento')
-    .then(response => response.json())
-    .then(data => {
-        const estabelecimentosDiv = document.getElementById('estabelecimentos');
-        data.estabelecimentos.forEach(estabelecimento => {    
-        nomeEstabelecimento = estabelecimento.nome;
-    });
-    })
-    .catch(error => console.error('Erro ao buscar os dados:', error));  
-    res.sendFile(path.join(__dirname, 'views', '/Produto/produto.html'));
+    const nomeEstabelecimento = req.params.nomeEstabelecimento;
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/produto.html'));
 });
 
 app.get('/entrar', (req, res) => {
@@ -202,14 +194,14 @@ app.post('/deletarEstabelecimentodb', (req, res) => {
 });
 
 //CRUD PRODUTO
-app.get('/produto/painel', (req, res) => {    
-    res.sendFile(path.join(__dirname, 'views', '/Produto/painel.html'));
+app.get('/produto-/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/painel.html'));
 });
 app.get('/criarProduto', (req, res) => {    
-    res.sendFile(path.join(__dirname, 'views', '/Produto//criarProduto.html'));
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/criarProduto.html'));
 });
 app.post('/criarProdutodb', (req, res) => {
-    const { nome, descricao,preco } = req.body;
+    const { nome, descricao,preco,id_estabelecimento } = req.body;
     db.get('SELECT nome FROM produto WHERE nome = ?', [nome], (err, row) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -218,7 +210,7 @@ app.post('/criarProdutodb', (req, res) => {
             return res.status(400).json({ error: 'Produto já cadastrado com esse nome' });
         }
     
-        db.run('INSERT INTO produto (nome, descricao,preco) VALUES (?, ?, ?)', [nome, descricao,preco], function(err) {
+        db.run('INSERT INTO produto (nome, descricao,preco,id_estabelecimento) VALUES (?, ?, ?,?)', [nome, descricao,preco,id_estabelecimento], function(err) {
             if (err) {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
@@ -236,6 +228,16 @@ app.post('/criarProdutodb', (req, res) => {
 });
 
 app.get('/consultarProduto', (req, res) => {
+    const { id_estabelecimento } = req.query;
+    db.all('SELECT * FROM produto WHERE id_estabelecimento = ?', [id_estabelecimento], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ produtos: rows });
+    });
+});
+
+app.get('/listarProduto', (req, res) => {
     db.all('SELECT * FROM produto', (err, rows) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -449,6 +451,13 @@ app.post('/deletarEnderecodb', (req, res) => {
             res.json({ message: 'endereco deletado', cliente: row });            
         });
     });
+});
+
+
+//Pagamento
+
+app.get('/Pagamento/pagamento', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Pagamento/pagamento.html'));
 });
 
 app.listen(port, () => {
