@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validar Código</title>
+</head>
+<body>
+    <h1>Insira o código recebido por e-mail</h1>
+    <form id="verificationForm">
+        <label for="code">Código de Verificação: </label>                
+        <input type="text" id="code" name="code" required><br>            
+        <button type="button" class="button" onclick="verificarCodigo()">Verificar</button>
+        <button type="button" class="button" onclick="reenviarEmail()">Reenviar Código</button>
+    </form>
+
+    <script>
+        function verificarCodigo() {
+            var code = document.getElementById('code').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/verificar-codigo', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        window.location.href = '/index.html';
+                    } else {
+                        console.error('Código de verificação inválido.');
+                    }
+                }
+            };
+            xhr.send('code=' + encodeURIComponent(code));
+        }
+        function reenviarEmail() {
+            var email = document.getElementById('email').value;
+            fetch('/enviar-codigo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Erro ao reenviar código de verificação.');
+            })
+            .then(data => {
+                alert('Novo código enviado com sucesso!');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Erro ao reenviar código de verificação.');
+            });
+        }
+    </script>
+</body>
+</html>

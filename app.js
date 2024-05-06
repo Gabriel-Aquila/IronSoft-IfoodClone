@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
+const nodemailer = require('nodemailer');
+const session = require('express-session');
 const app = express();
 const port = 5500;
 
@@ -430,3 +432,4 @@ app.post('/deletarEnderecodb', (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
+

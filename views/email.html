@@ -1,30 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>iFood</title>
-
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <script src="https://unpkg.com/jwt-decode@4.0.0/build/cjs/index.js" async defer></script>
-    </head>
-    <body>
-        <header>
-            <div class="logo">
-                <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
-            </div>
-        </header>
-        <main>
-            <div class="cadastro">
-                <h1>Falta pouco para matar sua fome!</h1>
-                <form action="/logar-email" method="POST">
-                    <labelfor="email">Email: </label>                
-                    <input type="email" id="email" name="email" required></br>            
-                    <button type="submit">Continuar</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>iFood</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+        </div>
+    </header>
+    <main>
+        <div class="cadastro">
+            <h1>Falta pouco para matar sua fome!</h1>
+            <form id="emailForm">
+                <label for="email">Email: </label>                
+                <input type="email" id="email" name="email" required><br>            
+                <button type="button" onclick="enviarEmail()">Continuar</button>
+            </form>
+        </div>
+        <div id="verificationPopup" class="popup">
+            <div class="popup-content">
+                <h2>Insira o código recebido por e-mail</h2>
+                <form id="verificationForm">
+                    <label for="verificationCode">Código de Verificação: </label>                
+                    <input type="text" id="verificationCode" name="verificationCode" required><br>            
+                    <button type="button" onclick="verificarCodigo()">Verificar</button>
+                    <button type="button" onclick="reenviarEmail()">Reenviar Código</button>
                 </form>
             </div>
-        </main>
-    </body>
+        </div>
+    </main>
+    <script>
+        function enviarEmail() {
+            var email = document.getElementById('email').value;
+            fetch('/enviar-codigo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'email=' + encodeURIComponent(email)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mostrar pop-up de verificação
+                    document.getElementById('verificationPopup').style.display = 'block';
+                } else {
+                    throw new Error('Erro ao enviar código de verificação.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        function verificarCodigo() {
+            var code = document.getElementById('verificationCode').value;
+            fetch('/verificar-codigo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'code=' + encodeURIComponent(code)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/index.html';
+                } else {
+                    throw new Error('Código de verificação inválido.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        function reenviarEmail() {
+            var email = document.getElementById('email').value;
+            fetch('/enviar-codigo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Erro ao reenviar código de verificação.');
+            })
+            .then(data => {
+                alert('Novo código enviado com sucesso!');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Erro ao reenviar código de verificação.');
+            });
+        }
+    </script>
+    <script type="text/javascript" src="scripts/script.js"></script>
+
+    <script type="text/javascript" src="scripts/server.js"></script>
+
+</body>
 </html>
