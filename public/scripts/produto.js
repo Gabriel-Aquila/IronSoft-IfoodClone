@@ -26,7 +26,6 @@ window.onload = function () {
         link.style.textDecoration="none";
         link.style.color="inherit";
         link.style.margin="10px";
-        nomeEstabelecimento = produto.nome
         link.setAttribute('href', '');
 
         
@@ -42,7 +41,7 @@ window.onload = function () {
             if (itemExistente) {
                 itemExistente.quantidade++; // Incrementa a quantidade do item existente
             } else {
-                itens.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 }); // Adiciona um novo item à cesta
+                itens.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 ,id_estabelecimento: id_estabelecimento }); // Adiciona um novo item à cesta
             }
             localStorage.setItem('Itens', JSON.stringify(itens));
             console.log('Item adicionado:', produto);

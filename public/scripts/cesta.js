@@ -56,6 +56,7 @@ function listarDados() {
                         itens.splice(index,1);
                         divModal.remove(); 
                         console.log('Item Deletado :', item);
+                        location.reload()
                     }
                     li.textContent = `${item.nome}  R$:${item.preco},00    ${item.quantidade}`;
                     localStorage.setItem("Itens",JSON.stringify(itens)) 

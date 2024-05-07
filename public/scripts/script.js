@@ -1,3 +1,4 @@
+let user = [];
 function voltar() {
     window.history.back();
 }
@@ -49,22 +50,12 @@ document.getElementById('locateAddress').addEventListener('click', function () {
         if (status === 'OK') {
             var location = results[0].geometry.location;
             var formattedAddress = results[0].formatted_address;
-
             updateMap(location, formattedAddress);
+
+            user.push({ contato:"",  endereço: formattedAddress});
+            localStorage.setItem('User', JSON.stringify(user));
         } else {
             alert('Não foi possível localizar o endereço. Por favor, tente novamente.');
         }
     });
 });
-
-// fetch('/consultarEstabelecimento')
-//     .then(response => response.json())
-//     .then(data => {
-//         const estabelecimentoList = document.getElementById('estabelecimento-list');
-//         data.forEach(estabelecimento => {
-//             const li = document.createElement('li');
-//             li.textContent = `Nome: ${estabelecimento.nome}, especialidade: ${estabelecimento.especialidade}, endereco: ${estabelecimento.endereco}`;
-//             estabelecimentoList.appendChild(li);
-//         });
-//     })
-//     .catch(error => console.error('Erro ao obter estabelecimentos:', error));

@@ -11,17 +11,12 @@
         <header>
             <div class="prt">
                 <div class="logo">
-                    <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+                    <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="#">Início</a></li>
-                        <li><a href="#">Restaurantes</a></li>
-                        <li><a href="#">Mercados</a></li>
-                        <li><a href="#">Bebidas</a></li>
-                        <li><a href="#">Farmácias</a></li>
-                        <li><a href="#">Pets</a></li>
-                        <li><a href="#">Shopping</a></li>
+                        <li><a href="/">Início</a></li>
+                        <li><a href="/">Restaurantes</a></li>
                     </ul>
                 </nav>
             </div>
@@ -47,7 +42,16 @@
             </dialog>   
             </div>        
         </header>
-            <div id="produtos"></div>
+        <div class="container">
+            <div id="endereço"></div>
+            <div id="pagamento"></div>
+            <div id="cpf-cnpj">
+                <label for="cpf-cnpj">CPF/CNPJ na nota:</label><br>
+                <input type="text" id="cpf-cnpj" name="cpf-cnpj" required><br>
+            </div>
+            <div id="resumo"></div>
+        </div>
+        <button id="finalizar_pagamento">Finalizar Pagamento</button>
         <footer>
             
             <hr>
@@ -69,6 +73,7 @@
         </footer>
         <script src="/scripts/cesta.js" ></script>
         <script src="/scripts/pagamento.js" ></script>
-        <link rel="stylesheet" href="../cesta.css">
+        <link rel="stylesheet" type="text/css" href="/pagamento.css">
+        <link rel="stylesheet" href="/cesta.css">
     </body>
 </html>

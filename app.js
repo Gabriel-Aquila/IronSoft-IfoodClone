@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
+
 const port = 5500;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -146,6 +147,15 @@ app.post('/criarEstabelecimentodb', (req, res) => {
 
 app.get('/consultarEstabelecimento', (req, res) => {
     db.all('SELECT * FROM estabelecimento', (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ estabelecimentos: rows });
+    });
+});
+app.get('/consultarIDEstabelecimento/:id_estabelecimento', (req, res) => {
+    const { id_estabelecimento } = req.params;
+    db.all('SELECT * FROM estabelecimento where id_estabelecimento = ?',[id_estabelecimento], (err, rows) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
