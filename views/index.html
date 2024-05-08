@@ -12,17 +12,12 @@
         <header>
             <div class="prt">
                 <div class="logo">
-                    <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+                    <a href="/"><img src="../image/logo.png" alt="Shopping Cart"></a>
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="#">Início</a></li>
-                        <li><a href="#">Restaurantes</a></li>
-                        <li><a href="#">Mercados</a></li>
-                        <li><a href="#">Bebidas</a></li>
-                        <li><a href="#">Farmácias</a></li>
-                        <li><a href="#">Pets</a></li>
-                        <li><a href="#">Shopping</a></li>
+                        <li><a href="/">Início</a></li>
+                        <li><a href="/">Restaurantes</a></li>
                     </ul>
                 </nav>
             </div>
@@ -45,7 +40,13 @@
                 <div class="cart-icon">
                     <i class="fas fa-shopping-bag"><span class="cart-value">R$0.00</span></i>
                 </div>
-            </div>           
+            </div>
+            <button id="modalButton">Cesta</button>
+            <div>
+            <dialog id="modal">
+                <ul id="modalConteudo"></ul>
+            </dialog>   
+            </div>        
         </header>
         <div id="addressPopup" class="popup">
             <div class="popup-content">
@@ -121,6 +122,9 @@
                     <img src="../image/banner4.png" alt="Top Restaurantes com Desconto">
                 </div>
             </div>
+
+            <div id="estabelecimentos"></div>
+
             <h2>Os queridinhos</h2>
             <div class="sugestao">
                 <div class="sug-cards">
@@ -208,5 +212,9 @@
             </div> 
         </footer>
         <script type="text/javascript" src="scripts/script.js"></script>
+        <script src="scripts/index.js" async defer></script>
+        <script src="scripts/cesta.js" ></script>
+        <script src="/scripts/cesta.js" ></script>
+        <link rel="stylesheet" href="../cesta.css">
     </body>
 </html>

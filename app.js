@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
 const session = require('express-session');
 const app = express();
+
 const port = 5500;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,13 +14,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 let user_adress = "";
 
 const db = new sqlite3.Database('models/database.db');
+app.get('/listarDados', (req, res) => {
+    db.all('SELECT * FROM produto', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).json({ error: 'Erro ao obter os dados do banco de dados.' });
+        } else {
+            res.json(rows);
+        }
+    });
+});
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => {   
     res.sendFile(path.join(__dirname, 'views', '/index.html'));
 });
 app.get('/painel', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
 });
+
+app.get('/produto/:nomeEstabelecimento', (req, res) => {
+    const nomeEstabelecimento = req.params.nomeEstabelecimento;
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/produto.html'));
+});
+
 app.get('/entrar', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/entrar.html'));
 });
@@ -138,7 +155,15 @@ app.get('/consultarEstabelecimento', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        
+        res.json({ estabelecimentos: rows });
+    });
+});
+app.get('/consultarIDEstabelecimento/:id_estabelecimento', (req, res) => {
+    const { id_estabelecimento } = req.params;
+    db.all('SELECT * FROM estabelecimento where id_estabelecimento = ?',[id_estabelecimento], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
         res.json({ estabelecimentos: rows });
     });
 });
@@ -184,14 +209,14 @@ app.post('/deletarEstabelecimentodb', (req, res) => {
 });
 
 //CRUD PRODUTO
-app.get('/produto/painel', (req, res) => {    
-    res.sendFile(path.join(__dirname, 'views', '/Produto/painel.html'));
+app.get('/produto-/painel', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/painel.html'));
 });
 app.get('/criarProduto', (req, res) => {    
-    res.sendFile(path.join(__dirname, 'views', '/Produto//criarProduto.html'));
+    res.sendFile(path.join(__dirname, 'views', '/Produto-/criarProduto.html'));
 });
 app.post('/criarProdutodb', (req, res) => {
-    const { nome, descricao,preco } = req.body;
+    const { nome, descricao,preco,id_estabelecimento } = req.body;
     db.get('SELECT nome FROM produto WHERE nome = ?', [nome], (err, row) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -200,7 +225,7 @@ app.post('/criarProdutodb', (req, res) => {
             return res.status(400).json({ error: 'Produto já cadastrado com esse nome' });
         }
     
-        db.run('INSERT INTO produto (nome, descricao,preco) VALUES (?, ?, ?)', [nome, descricao,preco], function(err) {
+        db.run('INSERT INTO produto (nome, descricao,preco,id_estabelecimento) VALUES (?, ?, ?,?)', [nome, descricao,preco,id_estabelecimento], function(err) {
             if (err) {
                 console.log("Erro bizarro, nem foi")
                 return res.status(500).json({ error: err.message });
@@ -218,6 +243,16 @@ app.post('/criarProdutodb', (req, res) => {
 });
 
 app.get('/consultarProduto', (req, res) => {
+    const { id_estabelecimento } = req.query;
+    db.all('SELECT * FROM produto WHERE id_estabelecimento = ?', [id_estabelecimento], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ produtos: rows });
+    });
+});
+
+app.get('/listarProduto', (req, res) => {
     db.all('SELECT * FROM produto', (err, rows) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -431,6 +466,13 @@ app.post('/deletarEnderecodb', (req, res) => {
             res.json({ message: 'endereco deletado', cliente: row });            
         });
     });
+});
+
+
+//Pagamento
+
+app.get('/Pagamento/pagamento', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Pagamento/pagamento.html'));
 });
 
 app.listen(port, () => {

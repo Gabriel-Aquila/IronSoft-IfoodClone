@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: space-between; 
+}
+
+#resumo, #endereço, #cpf-cnpj {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: dotted;
+    max-width: 300px;
+    width: 100%;
+    margin: auto;
+    padding: 10px; 
+}
+#cpf-cnpj input[type="text"] {
+    max-width: 90%;
+}
+
+#finalizar_pagamento {
+    margin: 0 auto; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+li{
+    list-style-type:none;
+}

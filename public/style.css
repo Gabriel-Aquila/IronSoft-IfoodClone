@@ -687,7 +687,41 @@ footer {
 
 
 
+dialog::backdrop {
+    background-color: rgb(0 0 0 / .4);
+}
+dialog{
+    height: 80%;
+    width: 25%;
+    justify-self: right;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+    margin-right: 400px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
 
+#modal.open {
+    transform: translateX(10);
+}
 
+#modal button {
+    float: right;
+}
+ #modal div{
+    justify-content: right;
+ }
+ .estabelecimentoDiv {
+    display: flex;
+    align-items: center; /* Alinha verticalmente */
+    gap: 10px; /* Espaço entre a imagem e o texto */
+}
 
-
+.imgDiv img {
+    object-fit: cover; /* Garante que a imagem cubra todo o espaço disponível */
+}

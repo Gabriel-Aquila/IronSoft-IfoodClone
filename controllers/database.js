@@ -24,7 +24,7 @@ db.serialize(() => {
 
 
 db.serialize(() => {
-    db.run('CREATE TABLE IF NOT EXISTS produto (id_produto INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,descricao TEXT, preco TEXT)');
+    db.run('CREATE TABLE IF NOT EXISTS produto (id_produto INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT,id_estabelecimento INTEGER NOT NULL,descricao TEXT, preco TEXT,FOREIGN KEY(id_estabelecimento) REFERENCES estabelecimento(id_estabelecimento))');
 });
 db.serialize(() => {
     db.run('CREATE TABLE IF NOT EXISTS endereco (id_endereco INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT)');
