@@ -46,7 +46,6 @@
             })
             .then(response => {
                 if (response.ok) {
-                    // Mostrar pop-up de verificação
                     document.getElementById('verificationPopup').style.display = 'block';
                 } else {
                     throw new Error('Erro ao enviar código de verificação.');

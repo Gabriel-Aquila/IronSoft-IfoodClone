@@ -2,6 +2,8 @@ function voltar() {
     window.history.back();
 }
 
+// GOOGLE MAPS 
+
 var map;
 var marker;
 
@@ -56,6 +58,8 @@ document.getElementById('locateAddress').addEventListener('click', function () {
         }
     });
 });
+
+//////////////////////////////////////////
 
 fetch('/estabelecimentos')
     .then(response => response.json())

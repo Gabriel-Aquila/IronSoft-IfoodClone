@@ -27,6 +27,10 @@ app.get('/entrar', (req, res) => {
 app.get('/email', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/email.html'));
 });
+
+app.get('/celular', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/celular/celular.html'));
+});
 app.post('/logar-email', (req, res) => {
     const {email} = req.body;
     fetch('http://localhost:5500/criarClientedb', {

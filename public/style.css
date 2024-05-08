@@ -626,6 +626,7 @@ footer {
 }
 
 /* Estilos para o pop-up de verificação */
+
 .popup {
     display: none; /* Inicialmente oculto */
     position: fixed;
