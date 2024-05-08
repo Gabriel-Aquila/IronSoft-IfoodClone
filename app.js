@@ -4,14 +4,102 @@ const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
 const session = require('express-session');
+const dotenv = require('dotenv');
+const twilio = require('twilio');
+const fs = require('fs');
+dotenv.config();
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+const port = 5500;
 const app = express();
 
-const port = 5500;
-
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 let user_adress = "";
+app.use(session({ secret: 'sua_chave_secreta', resave: false, saveUninitialized: true }));
+
+//Autenticação de 2 fatores via email
+function gerarCodigo() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+app.post('/enviar-codigo', (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).send('Email não fornecido');
+    }
+
+    const codigo = gerarCodigo();
+    req.session.codigo = codigo;
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "ifood.ironsoft@gmail.com",
+            pass: "otfagufsysgctquu",
+        },
+    });
+
+    const mailOptions = {
+        from: 'ifood.ironsoft@gmail.com',
+        to: email,
+        subject: 'Código de Verificação',
+        text: `Seu código de verificação: ${codigo}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erro ao enviar o código de verificação via e-mail.');
+        } else {
+            console.log('E-mail enviado: ' + info.response);
+            res.status(200).send('Código de verificação enviado com sucesso.');
+        }
+    });
+});
+
+app.post('/verificar-codigo', (req, res) => {
+    const { code } = req.body;
+    const generatedCode = req.session.codigo;
+    if (code === generatedCode) {
+        res.status(200).send('Autenticação bem-sucedida.');
+    } else {
+        console.error('Código de verificação inválido.');
+        res.status(401).send('Código de verificação inválido.');
+    }
+});
+
+
+
+
+app.post('/send-sms', (req, res) => {
+    console.log("rota acessada")
+    const {recipient} = req.body;
+    const codigo = gerarCodigo();
+    req.session.codigo = codigo;
+
+    const message = `Seu código ${codigo}`;
+    
+    client.messages.create({
+        body: message,
+        from: process.env.TWILIO_FROM_NUMBER,
+        to: recipient
+    })
+    .then(() => {
+        res.status(200).json({ message: 'Mensagem SMS enviada com sucesso!' });
+    })
+    .catch(error => {
+        console.error('Erro ao enviar SMS:', error);
+        res.status(500).json({ message: 'Erro ao enviar mensagem SMS.' });
+    });
+});
+
+app.get('/', (req, res) => {   
+    res.sendFile(path.join(__dirname, 'views', '/index.html'));
+});
+app.get('/painel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
+});
 
 const db = new sqlite3.Database('models/database.db');
 app.get('/listarDados', (req, res) => {
@@ -23,13 +111,6 @@ app.get('/listarDados', (req, res) => {
             res.json(rows);
         }
     });
-});
-
-app.get('/', (req, res) => {   
-    res.sendFile(path.join(__dirname, 'views', '/index.html'));
-});
-app.get('/painel', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', '/painelCRUD.html'));
 });
 
 app.get('/produto/:nomeEstabelecimento', (req, res) => {
@@ -475,6 +556,7 @@ app.get('/Pagamento/pagamento', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/Pagamento/pagamento.html'));
 });
 
+//Server
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });

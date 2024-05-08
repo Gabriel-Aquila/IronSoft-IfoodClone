@@ -1,3 +1,4 @@
+console.log('Teste');
 require('dotenv').config();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
