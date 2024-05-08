@@ -24,8 +24,8 @@
             <div class="prt">
                 <div class="search-bar">
                     <span class="search-icon"><i class="fas fa-search"></i></span>
-                    <input type="text" placeholder="Busque por um item ou loja">
-                </div>
+                    <input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Busque por um item ou loja" autocomplete="off">
+                </div>                
             </div>
             <div class="prt">
                 <div class="end">
@@ -123,7 +123,8 @@
                 </div>
             </div>
 
-            <div id="estabelecimentos"></div>
+            <div id="estabelecimentos">
+            </div>
 
             <h2>Os queridinhos</h2>
             <div class="sugestao">
@@ -215,6 +216,7 @@
         <script src="scripts/index.js" async defer></script>
         <script src="scripts/cesta.js" ></script>
         <script src="/scripts/cesta.js" ></script>
+        <script src="/scripts/search.js" async defer></script>
         <link rel="stylesheet" href="../cesta.css">
     </body>
 </html>

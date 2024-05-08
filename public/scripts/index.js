@@ -8,6 +8,7 @@ window.onload = function () {
         .then(response => response.json())
         .then(data => {
             const estabelecimentosDiv = document.getElementById('estabelecimentos');
+            const ol = document.getElementById('list');
             data.estabelecimentos.forEach(estabelecimento => {
 
             const estabelecimentoDiv = document.createElement('div');
@@ -32,7 +33,8 @@ window.onload = function () {
             const textoDiv = document.createElement('div');
             textoDiv.classList.add('textoDiv');
             textoDiv.innerHTML =`Nome: ${estabelecimento.nome} <br/> Especialidade: ${estabelecimento.especialidade}`;
-           
+
+            link.classList.add('estabelecimentos');
             estabelecimentoDiv.appendChild(imgDiv);
             estabelecimentoDiv.appendChild(textoDiv);
             link.appendChild(estabelecimentoDiv);
