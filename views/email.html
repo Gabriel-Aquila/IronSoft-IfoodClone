@@ -77,7 +77,12 @@
     </main>
     <script>
         function enviarEmail() {
+            user = JSON.parse(localStorage.getItem('User')) || [];
+
             let email = document.getElementById('email').value;
+            user[0]= {contato: email, endereço: user[0].endereço};
+            localStorage.setItem('User', JSON.stringify(user));
+
             console.log(email);
             fetch('/enviar-codigo', {
                 method: 'POST',
@@ -144,5 +149,6 @@
         }
     </script>
     <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="scripts/teste.js"></script>
 </body>
 </html>

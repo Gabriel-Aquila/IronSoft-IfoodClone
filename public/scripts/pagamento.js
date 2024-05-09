@@ -1,5 +1,6 @@
 const divResumo = document.getElementById('resumo');
 const divEndereço = document.getElementById('endereço');
+const buttonPagamento = document.getElementById('finalizar_pagamento');
 
 window.onload = function () {
 
@@ -51,3 +52,27 @@ window.onload = function () {
     divEndereço.appendChild(enderecoP);
 
 }
+
+buttonPagamento.addEventListener('click', function() {
+
+    let email = user[0].contato;
+    console.log(email);
+    fetch('/confirmar-pagamento', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'email=' + encodeURIComponent(email)
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById('verificationPopup').style.display = 'block';
+        } else {
+            throw new Error('Erro ao enviar código de verificação.');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    
+});
