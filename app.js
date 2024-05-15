@@ -75,7 +75,7 @@ app.post('/confirmar-pagamento', (req, res) => {
         from: 'ifood.ironsoft@gmail.com',
         to: email,
         subject: 'Pagamento Confirmado',
-        text: `O seu pedido está a caminhos`
+        text: `O seu pedido está a caminho`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

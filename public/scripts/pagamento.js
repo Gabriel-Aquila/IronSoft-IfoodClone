@@ -68,7 +68,7 @@ buttonPagamento.addEventListener('click', function() {
         if (response.ok) {
             document.getElementById('verificationPopup').style.display = 'block';
         } else {
-            throw new Error('Erro ao enviar código de verificação.');
+            throw new Error('Erro ao enviar confirmação.');
         }
     })
     .catch(error => {
