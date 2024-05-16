@@ -75,7 +75,38 @@ app.post('/confirmar-pagamento', (req, res) => {
         from: 'ifood.ironsoft@gmail.com',
         to: email,
         subject: 'Pagamento Confirmado',
-        text: `O seu pedido está a caminho`
+        text: `O seu pagamento foi confirmado`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Erro ao enviar confirmação via e-mail.');
+        } else {
+            console.log('E-mail enviado: ' + info.response);
+            res.status(200).send('Confirmação enviada com sucesso.');
+        }
+    });
+});
+
+app.post('/mensagem-pedido', (req, res) => {
+    const { email,mensagem,assunto } = req.body;
+    if (!email) {
+        return res.status(400).send('Email não fornecido');
+    }
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "ifood.ironsoft@gmail.com",
+            pass: "otfagufsysgctquu",
+        },
+    });
+
+    const mailOptions = {
+        from: 'ifood.ironsoft@gmail.com',
+        to: email,
+        subject: assunto,
+        text: `O seu pagamento foi confirmado`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
