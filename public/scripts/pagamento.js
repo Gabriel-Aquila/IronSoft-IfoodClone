@@ -1,61 +1,60 @@
 const divResumo = document.getElementById('resumo');
 const divEndereço = document.getElementById('endereço');
-const buttonPagamento = document.getElementById('finalizar_pagamento');
+const buttonPagamento = document.getElementById('pay');
 
 window.onload = function () {
 
-    //Resumo
-    itens = JSON.parse(localStorage.getItem(localStorage.key(0))) || [];
+    // Resumo
+    const itens = JSON.parse(localStorage.getItem(localStorage.key(0))) || [];
     let total = 0;
     let id_estabelecimento;
-    itens.forEach((item,index) =>{
+    itens.forEach((item) => {
         const li = document.createElement('li');
         li.textContent = `${item.nome}  R$:${item.preco},00  ${item.quantidade}x`;
-        console.log(localStorage.getItem(localStorage.key(0)))
-        li.style.margin="5px";
-        li.style.textDecoration="none";
+        console.log(localStorage.getItem(localStorage.key(0)));
+        li.style.margin = "5px";
+        li.style.textDecoration = "none";
         total += parseFloat(item.preco);
         id_estabelecimento = item.id_estabelecimento;
         divResumo.appendChild(li);
-    })
-    let estabelecimento;
+    });
+
     fetch(`/consultarIDEstabelecimento/${id_estabelecimento}`)
-    .then(response => response.json())
-    .then(data => {
-        estabelecimento = data.estabelecimentos[0].nome;
+        .then(response => response.json())
+        .then(data => {
+            const estabelecimento = data.estabelecimentos[0].nome;
 
-        let estabelecimentop = document.createElement('p');
-        let cupomP = document.createElement('p');
-        let totalP = document.createElement('p');
-        let subtotalP = document.createElement('p');
-        let taxalP = document.createElement('p');
-    
-        estabelecimentop.innerHTML=`Seu pedido em: ${estabelecimento}`;
-        cupomP.innerHTML=`Código do cupom: `;
-        subtotalP.innerHTML=`Subtotal:  ${total}`;
-        taxalP.innerHTML=`Taxa de entrega: 0`;
-        totalP.innerHTML=`Total:  ${total}`;
-    
-        divResumo.appendChild(estabelecimentop);
-        divResumo.appendChild(cupomP);
-        divResumo.appendChild(subtotalP);
-        divResumo.appendChild(taxalP);
-        divResumo.appendChild(totalP);
-    })
-    .catch(error => console.error('Erro ao buscar os dados:', error));
+            const estabelecimentop = document.createElement('p');
+            const cupomP = document.createElement('p');
+            const totalP = document.createElement('p');
+            const subtotalP = document.createElement('p');
+            const taxalP = document.createElement('p');
 
-    //Endereço
-    user = JSON.parse(localStorage.getItem('User')) || [];
+            estabelecimentop.innerHTML = `Seu pedido em: ${estabelecimento}`;
+            cupomP.innerHTML = `Código do cupom: `;
+            subtotalP.innerHTML = `Subtotal:  ${total}`;
+            taxalP.innerHTML = `Taxa de entrega: 0`;
+            totalP.innerHTML = `Total:  ${total}`;
+
+            divResumo.appendChild(estabelecimentop);
+            divResumo.appendChild(cupomP);
+            divResumo.appendChild(subtotalP);
+            divResumo.appendChild(taxalP);
+            divResumo.appendChild(totalP);
+        })
+        .catch(error => console.error('Erro ao buscar os dados:', error));
+
+    // Endereço
+    const user = JSON.parse(localStorage.getItem('User')) || [];
     console.log(user);
-    let enderecoP = document.createElement('p');;
-    enderecoP.innerHTML=`Entrega: ${user[user.length - 1].endereço}`;
+    const enderecoP = document.createElement('p');
+    enderecoP.innerHTML = `Entrega: ${user[user.length - 1].endereço}`;
     divEndereço.appendChild(enderecoP);
-
 }
 
 buttonPagamento.addEventListener('click', function() {
-
-    let email = user[0].contato;
+    const user = JSON.parse(localStorage.getItem('User')) || [];
+    const email = user[0].contato;
     console.log(email);
     fetch('/confirmar-pagamento', {
         method: 'POST',
@@ -66,7 +65,6 @@ buttonPagamento.addEventListener('click', function() {
     })
     .then(response => {
         if (response.ok) {
-            document.getElementById('verificationPopup').style.display = 'block';
         } else {
             throw new Error('Erro ao enviar confirmação.');
         }
@@ -74,5 +72,5 @@ buttonPagamento.addEventListener('click', function() {
     .catch(error => {
         console.error(error);
     });
-    
+    window.open("/status-pedido")
 });

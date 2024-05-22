@@ -25,7 +25,7 @@ const mailOptions = {
         name: "Web",
         address: process.env.USER
     },
-    to: ["marcosvieira271712@gmail.com"],
+    to: ["gabrielaquila15@gmail.com"],
     subject: "Sending email",
     text: "Código de verificação",
     html: "<style>h1,h2{color: red}</style><b><h1>Seja Bem Vindo!</h1></b></br><h2>Este é o seu código de verificação: " + verificationCode + "</h2>"
