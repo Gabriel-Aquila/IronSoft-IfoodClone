@@ -106,7 +106,7 @@ app.post('/mensagem-pedido', (req, res) => {
         from: 'ifood.ironsoft@gmail.com',
         to: email,
         subject: assunto,
-        text: `O seu pagamento foi confirmado`
+        text: mensagem
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -616,6 +616,9 @@ app.post('/deletarEnderecodb', (req, res) => {
 
 app.get('/Pagamento/pagamento', (req, res) => {    
     res.sendFile(path.join(__dirname, 'views', '/Pagamento/pagamento.html'));
+});
+app.get('/status-pedido', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/Entrega/entrega.html'));
 });
 
 //Server

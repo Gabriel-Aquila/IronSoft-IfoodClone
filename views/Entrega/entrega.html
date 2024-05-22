@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <title>iFood</title>
+        <title>Alterar entregador</title>
+        <script>
+            function voltar() {
+                window.history.back();
+            }
+        </script>
     </head>
     <body>
         <header>
@@ -42,18 +47,18 @@
             </dialog>   
             </div>        
         </header>
-        <div class="container">
-            <div id="endereço"></div>
-            <div id="pagamento"></div>
-            <div id="cpf-cnpj">
-                <label for="cpf-cnpj">CPF/CNPJ na nota:</label><br>
-                <input type="text" id="cpf-cnpj" name="cpf-cnpj" required><br>
-            </div>
-            <div id="resumo"></div>
-        </div>
-        <a href="/status-pedido"><button id="finalizar_pagamento">Finalizar Pagamento</button></a>
-        <footer>
+        <main>
+            <h1>Pedidos</h1>
+
+            <div id="restaurante"></div>
+
+            <div id="status-pedido"></div>
             
+            <div id="pedido"></div>
+                
+            
+        </main>
+        <footer>
             <hr>
             <div class="footer-bottom">
                 <div class="logo">
@@ -71,9 +76,6 @@
                 </div>
             </div>
         </footer>
-        <script src="/scripts/cesta.js" ></script>
-        <script src="/scripts/pagamento.js" ></script>
-        <link rel="stylesheet" type="text/css" href="/pagamento.css">
-        <link rel="stylesheet" href="/cesta.css">
+        <script src="/scripts/status-pedido.js" ></script>
     </body>
 </html>

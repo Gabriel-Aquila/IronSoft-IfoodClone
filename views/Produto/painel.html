@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <title>Painel de produto</title>
+        <script>
+            function voltar() {
+                window.history.back();
+            }
+        </script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../views/index.html"><img src="../image/logo.png" alt="Shopping Cart"></a>
+            </div>
+        </header>
+        <main>
+            <div class="painel">
+                <div class="info-est">
+                    <img src="../image/mc.jpg" alt="">
+                    <div class="nome-est">
+                        <h3>McDonald's - Ana Rosa</h3><br>
+                        <i class="fas fa-star">4.8</i>
+                        <span>•</span> 
+                        Lanches 
+                    </div> 
+                </div>
+                <div class="config-est">
+                    <a href="/criarproduto"><button  class="panel-button" ><i class="fas fa-plus"></i>Novo produto</button></a> 
+                    <a href="/alterarproduto"><button class="panel-button"><i class="fas fa-exchange-alt"></i>Alterar produto</button></a>        
+                    <a href="/deletarproduto"> <button class="panel-button"><i class="fas fa-trash"></i>Deletar produto</button></a>  
+                    <a href="/consultarproduto"><button class="panel-button"><i class="fas fa-search"></i>Consultar produto</button></a>
+                </div>                
+            </div>
+            <button onclick="voltar()" class="formButton voltar">Voltar</button>
+        </main>
+    </body>
+</html>
