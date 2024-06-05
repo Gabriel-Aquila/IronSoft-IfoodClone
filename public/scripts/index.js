@@ -43,10 +43,10 @@ window.onload = function () {
             link.addEventListener('click', function() {
                 const idEstabelecimento = this.getAttribute('data-id');
                 localStorage.setItem('idEstabelecimento', idEstabelecimento);
+                localStorage.setItem("endereco_Estabelecimento",JSON.stringify(estabelecimento.endereco)) 
             });
         });
     })
     .catch(error => console.error('Erro ao buscar os dados:', error));
 
 }
-

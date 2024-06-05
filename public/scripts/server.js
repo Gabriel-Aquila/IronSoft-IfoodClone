@@ -26,7 +26,7 @@ app.post('/enviar-codigo', (req, res) => {
         service: "gmail",
         auth: {
             user: "ifood.ironsoft@gmail.com",
-            pass: "otfagufsysgctquu",
+            pass: "tfagufysgctq",
         },
     });
 

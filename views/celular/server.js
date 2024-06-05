@@ -13,7 +13,6 @@ const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TO
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {

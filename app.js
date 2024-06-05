@@ -3,11 +3,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
-const pdf = require('html-pdf');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const twilio = require('twilio');
-const stripe = require('stripe')('sk_test_51PJ4t9P6St9pXz2cTK21fkBSyzn6yesGmYz5mKKd2HSj1MdIdIFj2wvrlfhMEwaYKf2Tabs20mKj3c41rcQMdk2I00QMWWy3BK');
 const fs = require('fs');
 dotenv.config();
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
@@ -122,117 +120,6 @@ app.post('/mensagem-pedido', (req, res) => {
     });
 });
 
-app.post('/nota-fiscal', (req, res) => {
-    const { email, mensagem, assunto } = req.body;
-    if (!email) {
-        return res.status(400).send('Email não fornecido');
-    }
-
-    const htmlContent = `
-    <div style="border: 1px solid #000; padding: 20px; max-width: 600px; margin: auto;">
-        <h2 style="text-align: center;">Nota Fiscal</h2>
-        <div style="margin-bottom: 20px;">
-            <strong>Emitente:</strong>
-            <p>Nome da Empresa</p>
-            <p>CNPJ: 00.000.000/0001-00</p>
-            <p>Endereço: Rua Exemplo, 123 - Cidade - Estado</p>
-            <p>CEP: 12345-678</p>
-            <p>Telefone: (00) 0000-0000</p>
-        </div>
-        <div style="margin-bottom: 20px;">
-            <strong>Destinatário:</strong>
-            <p>Nome do Cliente</p>
-            <p>CPF: 000.000.000-00</p>
-            <p>Endereço: Rua Cliente, 456 - Cidade - Estado</p>
-            <p>CEP: 87654-321</p>
-            <p>Telefone: (00) 98765-4321</p>
-        </div>
-        <table border="1" width="100%" style="border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Descrição</th>
-                    <th>Quantidade</th>
-                    <th>Valor Unitário</th>
-                    <th>Valor Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Produto A</td>
-                    <td>2</td>
-                    <td>R$ 50,00</td>
-                    <td>R$ 100,00</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Produto B</td>
-                    <td>1</td>
-                    <td>R$ 100,00</td>
-                    <td>R$ 100,00</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4" style="text-align: right;">Subtotal</td>
-                    <td>R$ 200,00</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: right;">Frete</td>
-                    <td>R$ 20,00</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: right;">Total</td>
-                    <td>R$ 220,00</td>
-                </tr>
-            </tfoot>
-        </table>
-        <div style="margin-top: 20px;">
-            <p><strong>Data da Emissão:</strong> 21/05/2024</p>
-            <p><strong>Data de Vencimento:</strong> 28/05/2024</p>
-        </div>
-    </div>
-`;
-    pdf.create(htmlContent).toBuffer((err, buffer) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Erro ao gerar PDF.');
-        }
-
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "ifood.ironsoft@gmail.com",
-                pass: "otfagufsysgctquu",
-            },
-        });
-
-        const mailOptions = {
-            from: 'ifood.ironsoft@gmail.com',
-            to: email,
-            subject: assunto,
-            text: mensagem,
-            attachments: [
-                {
-                    filename: 'nota-fiscal.pdf',
-                    content: buffer
-                }
-            ]
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error(error);
-                res.status(500).send('Erro ao enviar confirmação via e-mail.');
-            } else {
-                console.log('E-mail enviado: ' + info.response);
-                res.status(200).send('Confirmação enviada com sucesso.');
-            }
-        });
-    });
-});
-
 app.post('/verificar-codigo', (req, res) => {
     const { code } = req.body;
     const generatedCode = req.session.codigo;
@@ -267,24 +154,6 @@ app.post('/send-sms', (req, res) => {
         console.error('Erro ao enviar SMS:', error);
         res.status(500).json({ message: 'Erro ao enviar mensagem SMS.' });
     });
-});
-
-
-app.post('/create-payment-intent', async (req, res) => {
-    const { amount } = req.body;
-
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount,
-            currency: 'usd',
-        });
-
-        res.send({
-            clientSecret: paymentIntent.client_secret,
-        });
-    } catch (e) {
-        res.status(400).send({ error: { message: e.message } });
-    }
 });
 
 app.get('/', (req, res) => {   
@@ -752,97 +621,13 @@ app.get('/status-pedido', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', '/Entrega/entrega.html'));
 });
 
-app.post('/registrar-pedido', (req, res) => {
-    const { id_cliente, id_estabelecimento, produtos } = req.body;
-
-    const dataHoraPedido = new Date().toISOString();
-
-    db.run('INSERT INTO pedido (id_cliente, id_estabelecimento, status, data_hora_pedido) VALUES (?, ?, ?, ?)', [id_cliente, id_estabelecimento, 'Pendente', dataHoraPedido], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-
-        const idPedido = this.lastID;
-
-        const stmt = db.prepare('INSERT INTO pedido_produto (id_pedido, id_produto, quantidade) VALUES (?, ?, ?)');
-        produtos.forEach(produto => {
-            stmt.run(idPedido, produto.id_produto, produto.quantidade);
-        });
-        stmt.finalize();
-
-        res.json({ message: 'Pedido registrado com sucesso', id_pedido: idPedido });
-    });
+//Rota
+app.get('/rota', (req, res) => {    
+    res.sendFile(path.join(__dirname, 'views', '/rota.html'));
 });
 
-//Relatórios
-app.get('/relatorio', (req, res) => {    
-    res.sendFile(path.join(__dirname, 'views', '/Relatorios/relatorio.html'));
-});
-app.get('/relatorio-vendas-por-dia', (req, res) => {
-    const sql = `
-        SELECT strftime('%w', data_hora_pedido) as dia_semana, SUM(produto.preco * pedido_produto.quantidade) as total
-        FROM pedido
-        JOIN pedido_produto ON pedido.id_pedido = pedido_produto.id_pedido
-        JOIN produto ON pedido_produto.id_produto = produto.id_produto
-        GROUP BY dia_semana
-        ORDER BY dia_semana;
-    `;
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": rows
-        });
-    });
-});
-
-app.get('/relatorio-faturamento-por-restaurante', (req, res) => {
-    const sql = `
-        SELECT estabelecimento.nome as restaurante, SUM(produto.preco * pedido_produto.quantidade) as faturamento, COUNT(DISTINCT pedido.id_cliente) as clientes, COUNT(pedido_produto.id_pedido_produto) as quantidade_vendas
-        FROM pedido
-        JOIN pedido_produto ON pedido.id_pedido = pedido_produto.id_pedido
-        JOIN produto ON pedido_produto.id_produto = produto.id_produto
-        JOIN estabelecimento ON produto.id_estabelecimento = estabelecimento.id_estabelecimento
-        GROUP BY estabelecimento.nome;
-    `;
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": rows
-        });
-    });
-});
-
-app.get('/relatorio-vendas-por-produto', (req, res) => {
-    const sql = `
-        SELECT produto.nome as produto, produto.preco as preco, SUM(produto.preco * pedido_produto.quantidade) as faturamento, 
-        COUNT(DISTINCT pedido.id_cliente) as clientes, COUNT(pedido_produto.id_pedido_produto) as quantidade_vendas
-        FROM pedido
-        JOIN pedido_produto ON pedido.id_pedido = pedido_produto.id_pedido
-        JOIN produto ON pedido_produto.id_produto = produto.id_produto
-        GROUP BY produto.nome;
-    `;
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": rows
-        });
-    });
-});
 
 //Server
 app.listen(port, () => {
     console.log(`Servidor iniciado em http://localhost:${port}`);
 });
-

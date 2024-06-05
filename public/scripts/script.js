@@ -5,8 +5,11 @@ function voltar() {
 
 // GOOGLE MAPS 
 
+
 var map;
 var marker;
+
+
 
 function updateMap(location, formattedAddress) {
     const map = new google.maps.Map(document.getElementById('mapFrame'), {
@@ -61,3 +64,4 @@ document.getElementById('locateAddress').addEventListener('click', function () {
         }
     });
 });
+

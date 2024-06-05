@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>IronSoft</title>
+    <style>
+        #map {
+        width: 60%;
+        height: 350px;
+        margin-bottom: 10px;
+        }
+        #form button, #btn-voltar {
+        background-color: blue;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+        #resultados {
+        margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+  <h1>Gestão de transporte</h1>
+  <div id="map"></div>
+  <form id="form">
+    <label for="origem">Origem:</label>
+    <input type="text" id="origem" name="origem" /> <br /><br />
+    <label for="destino">Destino:</label>
+    <input type="text" id="destino" name="destino" /><br /><br />
+    <button type="button" onclick="calcular()">Calcular</button>
+  </form>
+  <div id="resultado"></div>
+  <div id="resultados" style="display: none;">
+    <p>Distância percorrida: <span style="font-weight: bold; color: black;" id="distancia"></span> km</p>
+    <button type="button" onclick="voltar()" id="btn-voltar">Voltar</button>
+  </div>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv-yVCvUBLdIaw84hEb3tzQxQbRymRprk&libraries=places"></script>
+  <script>
+    var map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: -23.5505, lng: -46.6333 },
+      zoom: 12,
+    });
+
+    var directionsRenderer = new google.maps.DirectionsRenderer({
+      map: map,
+    });
+
+    function calcular() {
+      var origem = document.getElementById("origem").value;
+      var destino = document.getElementById("destino").value;
+
+      if (origem == "" || destino == "") {
+        alert("Por favor, preencha todos os campos.");
+      } else {
+        var directionsService = new google.maps.DirectionsService();
+        var request = {
+          origin: origem,
+          destination: destino,
+          travelMode: "TWO_WHEELER",
+        };
+
+        directionsService.route(request, function (result, status) {
+          if (status == "OK") {
+            directionsRenderer.setDirections(result);
+
+            var distancia = result.routes[0].legs[0].distance.value / 1000;
+
+            document.getElementById("distancia").textContent = distancia.toFixed(2);
+            document.getElementById("resultados").style.display = "block";
+            document.getElementById("form").style.display = "none";
+          } else {
+            alert("Não foi possível calcular a rota.");
+          }
+        });
+      }
+    }
+
+    function voltar() {
+      document.getElementById("resultados").style.display = "none";
+      document.getElementById("form").style.display = "block";
+      directionsRenderer.set("directions", null);
+      document.getElementById("origem").value = "";
+      document.getElementById("destino").value = "";
+    }
+  </script>
+</body>
+</html>
